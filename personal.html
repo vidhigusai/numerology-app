@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Personal Numerology</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // 1. Redirect if not authenticated
+            if (sessionStorage.getItem("auth") !== "true") {
+                const filename = window.location.pathname.split("/").pop();
+                sessionStorage.setItem("redirectAfterLogin", filename);
+                window.location.href = "password.html";
+                return;
+            }
+
+            // 2. Load form data into fields
+            loadFormData();
+
+            // 3. Attach input listeners to auto-save
+            const inputs = document.querySelectorAll("#firstName, #middleName, #lastName, #mobileNumber, #dob, #gender");
+            inputs.forEach(input => {
+                input.addEventListener("input", saveFormData);
+            });
+        });
+    </script>
+</head>
+
+<body data-page="personal">
+    <div class="topbar">
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <div id="menuOverlay" onclick="toggleMenu()"></div>
+
+        <nav id="menu" class="menu">
+            <div class="menu-header">🔮 Numerology App</div>
+            <a href="personal.html">Personal Numerology</a>
+            <a href="mobile.html">Mobile Numerology</a>
+            <a href="loshugrid.html">Lo Shu Grid</a>
+            <a href="password.html" onclick="logout()">Logout</a>
+        </nav>
+
+        <!-- <header>Personal Numerology</header> -->
+        <h1 class="page-title">Personal Numerology</h1>
+
+        <div id="langToggle" class="lang-toggle">
+            <button onclick="setLanguage('en')">English</button>
+            <button onclick="setLanguage('hi')">हिन्दी</button>
+        </div>
+    </div>
+
+    <!-- Form -->
+    <div class="form-container">
+        <div><label>First Name</label><input type="text" id="firstName" placeholder="First Name"></div>
+        <div><label>Middle Name</label><input type="text" id="middleName" placeholder="Middle Name"></div>
+        <div><label>Last Name</label><input type="text" id="lastName" placeholder="Last Name"></div>
+        <div><label>Mobile Number</label><input type="number" id="mobileNumber" placeholder="10-digit Mobile"
+                maxlength="10"></div>
+        <div><label>Date of Birth</label><input type="number" id="dob" placeholder="DDMMYYYY" maxlength="8"></div>
+        <div><label>Gender</label><select id="gender">
+                <option value="">Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select></div>
+        <button onclick="calculatePersonal()">Calculate</button>
+    </div>
+
+    <!-- Results -->
+    <div class="results-container report-section" id="resultsGrid" style="display:none;"></div>
+    <div id="actionButtons" style="display:none;">
+        <button onclick="downloadReport()" class="action-btn">Download Report</button>
+        <button onclick="logout()" class="action-btn">Exit</button>
+    </div>
+    <script src="numerology.js"></script>
+    <script src="download.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,1073 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f9f3e9;
+    color: #333;
+}
+/* Topbar container (replaces header + fixes alignment) */
+.topbar {
+    position: relative; /* allows centering */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: #fff8ec; /* soft cream background */
+    border-bottom: 2px solid #d4a017; /* golden border */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Title (always centered) */
+.topbar .page-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    font-weight: bold;
+    color: #b8860b; /* golden brown */
+    margin: 0;
+    white-space: nowrap;
+    letter-spacing: 1px;
+}
+
+/* Hamburger button (left) */
+.topbar .hamburger {
+    width: 42px;
+    height: 42px;
+    background: #fffdf5;
+    border: 2px solid #d4a017;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    color: #694b0a;
+}
+
+/* Language toggle (right) */
+.topbar .lang-toggle {
+    display: inline-flex;
+    border: 1px solid #d4a017;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.topbar .lang-toggle button {
+    padding: 4px 8px;
+    font-size: 14px;
+    border: none;
+    background: #fff8ec;
+    color: #694b0a;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.topbar .lang-toggle button:hover {
+    background: #f9f3e9;
+}
+
+.topbar .lang-toggle button.active {
+    background: #d4a017;
+    color: white;
+    font-weight: bold;
+}
+
+.topbar .lang-toggle button:hover:not(.active) {
+    background: #f9f3e9;
+}
+
+
+/* Side Menu (hidden off-screen) */
+.menu {
+    position: fixed;
+    top: 0;
+    left: -240px; /* start hidden */
+    width: 240px;
+    height: 100vh;
+    background: #fffdf8;
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    transition: left 0.3s ease-in-out;
+    z-index: 2500;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.25);
+}
+
+.menu-header {
+    font-size: 18px;
+    font-weight: bold;
+    color: #b8860b;
+    text-align: center;
+    padding: 16px 12px;
+    border-bottom: 1px solid #e0d6b4;
+    background: #fff8ec;
+}
+
+.menu.active {
+    left: 0;
+}
+
+/* Dark overlay when menu is open */
+#menuOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 2000;
+    display: none;
+}
+
+#menuOverlay.active {
+    display: block;
+}
+
+/* Menu Links */
+.menu a {
+    padding: 14px 20px;
+    text-decoration: none;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    font-weight: 500;
+}
+
+.menu a:hover {
+    background: #f9f3e9;
+}
+
+/* ✅ Responsive adjustments */
+@media (max-width: 768px) {
+    .topbar .page-title {
+        font-size: 20px;
+    }
+    .topbar .hamburger {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
+    .topbar .lang-toggle button {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .topbar .lang-toggle button {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0; /* hide original text */
+        position: relative;
+        min-width: 32px; /* ensure button is not invisible */
+        height: 28px;
+    }
+
+    /* EN replacement */
+    .topbar .lang-toggle button[onclick*="setLanguage('en')"]::after {
+        content: "A";
+        font-size: 12px;
+        font-weight: 600;
+        color: #694b0a;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    /* HI replacement */
+    .topbar .lang-toggle button[onclick*="setLanguage('hi')"]::after {
+        content: "अ";
+        font-size: 12px;
+        font-weight: 600;
+        color: #694b0a;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+
+
+/* .form-container { display:grid; grid-template-columns:repeat(3,1fr); gap:15px 20px; max-width:900px; margin:20px auto; padding:20px; background:white; border-radius:10px; box-shadow:0 3px 8px rgba(0,0,0,0.1);}
+.form-container label { font-weight:bold; color:#555; }
+.form-container input, .form-container select { width:100%; padding:8px; border:1px solid #ccc; border-radius:5px; font-size:14px; }
+.form-container button, .action-btn { grid-column:span 3; justify-self:center; background-color:#b8860b; color:white; border:none; padding:10px 20px; font-size:16px; border-radius:5px; cursor:pointer; font-weight:bold; }
+.form-container button:hover, action-btn:hover { background-color:#a17408; } */
+
+.pdf-section {
+    page-break-after: always;
+    /* Each section starts on new page */
+    padding: 20px;
+}
+
+.cover-page {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+}
+
+.number-description {
+    margin-top: -5px;
+}
+
+.number-description .prediction-box {
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.number-description .label {
+    background: #b8860b;
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 10px 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.number-description p {
+    margin: 0;
+    padding: 14px 16px;
+    font-size: 15px;
+    color: #333;
+    line-height: 1.6;
+}
+
+.number-card.active {
+    border: 1px solid #b8860b;
+    background: #fffdf6;
+}
+
+/* Connector line */
+#connector-line {
+    width: 2.5px;
+    height: 55px;
+    /* adjust spacing */
+    background: #b8860b;
+    margin: 0 auto;
+    display: none;
+}
+
+
+/* PASSWORD MODAL BOX */
+.password-box {
+    background: #fffdf6;
+    /* light cream, matches .universal-container */
+    padding: 30px 40px;
+    border-radius: 14px;
+    border: 1px solid #e0c97f;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    max-width: 360px;
+    width: 90%;
+}
+
+.password-box h2 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #b8860b;
+    letter-spacing: 0.5px;
+}
+
+/* INPUT FIELD */
+.password-box input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    margin-bottom: 18px;
+    box-sizing: border-box;
+}
+
+.password-box input:focus {
+    border-color: #b8860b;
+    box-shadow: 0 0 6px rgba(184, 134, 11, 0.4);
+    outline: none;
+}
+
+/* BUTTON */
+.password-box button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(to right, #d4af37, #b8860b);
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.password-box button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+}
+
+.pair-explanation-hi,
+.loshu-desc-list li,
+.hindi-text {
+    font-family: 'Noto Sans', 'Noto Sans Devanagari', 'Mangal', sans-serif !important;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* Prevent page breaks inside important blocks */
+.loshu-grid-block,
+.loshu-desc-block,
+.prediction-box {
+    page-break-inside: avoid;
+}
+
+.universal-container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fffdf6;
+    /* very light cream */
+    border: 1px solid #e0c97f;
+    /* golden border */
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+body,
+.loshu-desc-block {
+    font-family: 'Noto Sans', 'Noto Sans Devanagari', 'Mangal', sans-serif;
+    line-height: 1.6;
+    /* improves readability for Hindi */
+}
+
+/* FORM CONTAINER */
+/* FORM CONTAINER */
+.form-container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e0c97f;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+    box-sizing: border-box;
+}
+
+/* FIXED LABELS */
+.form-container label {
+    display: block;
+    font-weight: bold;
+    font-size: 15px;
+    color: #b8860b;
+    margin-bottom: 6px;
+    line-height: 1.4;
+    text-align: left;
+    box-sizing: border-box;
+}
+
+/* INPUTS */
+.form-container input,
+.form-container select {
+    width: 100%;
+    /* stretch full column */
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    background: #fff;
+    box-sizing: border-box;
+    /* ensures padding + border don’t shrink width */
+    display: block;
+}
+
+.form-container input:focus,
+.form-container select:focus {
+    border-color: #b8860b;
+    box-shadow: 0 0 6px rgba(184, 134, 11, 0.4);
+    outline: none;
+}
+
+/* BUTTON */
+.form-container button {
+    grid-column: 1 / -1;
+    padding: 12px;
+    background: linear-gradient(to right, #d4af37, #b8860b);
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-container button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+}
+
+/* Mobile: force single-column layout + bigger text */
+/* === Hard mobile override: one input per row + larger text === */
+@media (max-width: 600px) {
+
+    /* Force single column on mobile even if earlier grid says 2–3 columns */
+    body .form-container {
+        grid-template-columns: 1fr !important;
+        gap: 18px !important;
+        padding: 16px !important;
+    }
+
+    /* Make text more readable on phones */
+    body .form-container label {
+        font-size: 16px !important;
+        line-height: 1.3 !important;
+    }
+
+    body .form-container input,
+    body .form-container select {
+        font-size: 16px !important;
+        padding: 12px 14px !important;
+        border-radius: 10px !important;
+        min-width: 0;
+        /* avoid overflow in grid cells */
+    }
+
+    body .form-container button {
+        font-size: 18px !important;
+        padding: 14px !important;
+        border-radius: 10px !important;
+        width: 100%;
+    }
+}
+
+
+
+/* .results-container { max-width:900px; margin:20px auto; }
+.prediction-box { background:white; border-left:5px solid #b8860b; padding:15px; border-radius:5px; box-shadow:0 2px 5px rgba(0,0,0,0.1); margin-bottom:15px; } */
+/* .label { font-weight:bold; color:#b8860b; margin-bottom:8px; font-size:24px; text-align:center; letter-spacing:1px } */
+
+.results-container {
+    max-width: 900px;
+    /* same as form */
+    margin: -10px auto;
+    padding: 0 10px;
+}
+
+.prediction-box {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e0c97f;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    margin-top: 20px;
+    padding: 16px;
+}
+
+.label {
+    /* background: linear-gradient(135deg, #b8860b, #8b6508); */
+    background: linear-gradient(to right, #d4af37, #b8860b);
+    color: #fff;
+    /* white text */
+    font-weight: bold;
+    font-size: 16px;
+    /* slightly smaller so it fits inside cards */
+    text-align: center;
+    padding: 6px 10px;
+    border-radius: 6px;
+    /* smooth edges */
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    /* gives elegant consistency */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    /* subtle shadow */
+}
+
+footer {
+    text-align: center;
+    font-size: 12px;
+    color: #777;
+    margin: 20px 0;
+}
+
+.no-print {
+    display: inline-block;
+    background: #007BFF;
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    margin: 12px 8px 0 0;
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+.no-print:hover {
+    background: #0056b3;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.13);
+}
+
+#actionButtons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 30px auto 25px auto;
+}
+
+.action-btn {
+    padding: 12px 28px;
+    background: linear-gradient(to right, #d4af37, #b8860b);
+    /* golden gradient */
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+/* Grid Layout */
+/* Main Numbers Grid */
+.main-numbers-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    /* 6 cards in a row */
+    gap: 16px;
+    margin: 20px 0;
+    max-width: 900px;
+    /* match form + results width */
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+/* Number Cards */
+.number-card {
+    aspect-ratio: 1 / 1;
+    /* perfect squares */
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #d4af37;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.number-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Top half (gold label) */
+.card-label {
+    flex: 1;
+    background: linear-gradient(to bottom, #c99700, #b8860b);
+    color: #fff;
+    font-weight: bold;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    padding: 6px;
+    text-align: center;
+}
+
+/* Bottom half (white number) */
+.card-value {
+    flex: 1;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #222;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .main-numbers-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .main-numbers-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .main-numbers-grid .card-label {
+        font-size: 15px;
+        /* was 14px */
+    }
+
+    .main-numbers-grid .card-value {
+        font-size: 24px;
+        /* was 22px */
+    }
+}
+
+
+.main-numbers-grid .prediction-box {
+    background: #fffbe6;
+    border-left: 5px solid #b8860b;
+    box-shadow: 0 2px 8px rgba(184, 134, 11, 0.07);
+    border-radius: 8px;
+    padding: 18px 14px;
+    text-align: center;
+    font-size: 18px;
+    transition: box-shadow 0.2s;
+}
+
+.main-numbers-grid .prediction-box:hover {
+    box-shadow: 0 4px 16px rgba(184, 134, 11, 0.13);
+    background: #fff8e1;
+}
+
+.main-numbers-grid .label {
+    font-size: 15px;
+    color: #a17408;
+    margin-bottom: 8px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+/* Personality & Destiny block styling */
+.main-numbers-grid .prediction-box {
+    font-family: 'Noto Sans', 'Noto Sans Devanagari', 'Mangal', sans-serif;
+    background: #fffbe6;
+    border: 2px solid rgba(184, 134, 11, 0.45);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(184, 134, 11, 0.07);
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+}
+
+.main-numbers-grid .pair-title,
+.main-numbers-grid .label {
+    color: #a17408;
+    font-size: 21px;
+    font-family: 'Noto Sans', 'Noto Sans Devanagari', 'Mangal', sans-serif;
+    margin-bottom: 8px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 4px rgba(184, 134, 11, 0.08);
+}
+
+.nature-positive {
+    color: #1ca61c;
+    font-weight: bold;
+}
+
+.nature-negative {
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+.nature-neutral {
+    color: #1976d2;
+    font-weight: bold;
+}
+
+.pair-row {
+    background-color: #fff8e1;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(184, 134, 11, 0.07);
+    margin-bottom: 10px;
+    padding: 12px 16px;
+    border-left: none;
+    border: 2px solid rgba(184, 134, 11, 0.45);
+}
+
+.pair-row.zebra {
+    background-color: #f9f3e9;
+}
+
+.pair-title {
+    font-weight: bold;
+    color: #b8860b;
+    font-size: 20px;
+    text-align: center;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    margin-top: 2px;
+    text-shadow: 0 1px 4px rgba(184, 134, 11, 0.08);
+    font-family: 'Noto Sans', 'Noto Sans Devanagari', 'Mangal', sans-serif;
+    background: linear-gradient(90deg, #fff8e1 0%, #f9f3e9 100%);
+    border-radius: 4px;
+    padding: 4px 0;
+}
+
+
+.pair-explanation-en {
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 4px;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    letter-spacing: 0.2px;
+}
+
+.pair-explanation-hi {
+    color: #6d4c00;
+    font-size: 15px;
+    margin-bottom: 8px;
+    font-family: 'Noto Sans', 'Noto Sans Devanagari', 'Mangal', sans-serif;
+    line-height: 1.7;
+}
+
+.golden-number span {
+    color: #b8860b;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Noto Sans', 'Noto Sans Devanagari', 'Mangal', sans-serif;
+    letter-spacing: 1px;
+}
+
+.golden-number {
+    color: #a17408;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Noto Sans', 'Noto Sans Devanagari', 'Mangal', sans-serif;
+    margin-bottom: 4px;
+    display: inline-block;
+}
+
+/* Force page break before/after specific sections */
+.page-break {
+    page-break-before: always;
+}
+
+.results-container,
+.main-numbers-grid,
+.loshu-grid-block,
+.loshu-desc-block {
+    page-break-inside: avoid;
+}
+
+
+
+/* Loshu Grid Styling */
+.loshu-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 20px auto;
+    flex-wrap: wrap;
+}
+
+.loshu-grid-block {
+    background: #fff;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+
+.loshu-grid-title {
+    font-weight: bold;
+    margin-bottom: 12px;
+    font-size: 18px;
+    color: #333;
+}
+
+.loshu-grid-table {
+    display: grid;
+    grid-template-columns: repeat(3, 90px);
+    grid-template-rows: repeat(3, 90px);
+    gap: 6px;
+    margin: auto;
+}
+
+.loshu-cell {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    font-weight: bold;
+    border-radius: 10px;
+    background: #f4f4f4;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.15);
+    padding: 6px;
+}
+
+.loshu-cell .planet {
+    font-size: 12px;
+    font-weight: normal;
+    margin-top: 4px;
+    color: #444;
+    line-height: 1.2;
+}
+
+/* Differentiate Reference vs User grid planet labels */
+.reference-grid .loshu-cell .planet {
+    font-weight: bold;
+    color: #222;
+}
+
+.user-grid .loshu-cell .planet {
+    font-size: 11px;
+    font-style: italic;
+    color: #555;
+}
+
+/* Reference grid colors (from your image theme) */
+/* Reference grid planetary colors - pastel theme */
+.reference-grid .num-1 {
+    background: #FFE082;
+    color: #000;
+}
+
+/* Sun */
+.reference-grid .num-2 {
+    background: #FAFAFA;
+    color: #000;
+    border: 1px solid #ddd;
+}
+
+/* Moon */
+.reference-grid .num-3 {
+    background: #FFD54F;
+    color: #000;
+}
+
+/* Jupiter */
+.reference-grid .num-4 {
+    background: #B0BEC5;
+    color: #000;
+}
+
+/* Rahu */
+.reference-grid .num-5 {
+    background: #81C784;
+    color: #000;
+}
+
+/* Mercury */
+.reference-grid .num-6 {
+    background: #81D4FA;
+    color: #000;
+}
+
+/* Venus */
+.reference-grid .num-7 {
+    background: #E6B98C;
+    color: #000;
+}
+
+/* Ketu */
+.reference-grid .num-8 {
+    background: #90A4AE;
+    color: #000;
+}
+
+/* Saturn */
+.reference-grid .num-9 {
+    background: #E57373;
+    color: #000;
+}
+
+/* Mars */
+
+/* User grid planetary colors - bolder, darker tones */
+.user-grid .num-1 {
+    background: #FFE082;
+}
+
+.user-grid .num-2 {
+    background: #FAFAFA;
+    border: 1px solid #ddd;
+}
+
+.user-grid .num-3 {
+    background: #FFD54F;
+}
+
+.user-grid .num-4 {
+    background: #B0BEC5;
+}
+
+.user-grid .num-5 {
+    background: #81C784;
+}
+
+.user-grid .num-6 {
+    background: #81D4FA;
+}
+
+.user-grid .num-7 {
+    background: #E6B98C;
+}
+
+.user-grid .num-8 {
+    background: #90A4AE;
+}
+
+.user-grid .num-9 {
+    background: #E57373;
+}
+
+/* Common styling */
+.loshu-grid-table {
+    display: grid;
+    grid-template-columns: repeat(3, 80px);
+    grid-template-rows: repeat(3, 80px);
+    gap: 5px;
+    margin: 10px auto;
+}
+
+.loshu-cell {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    border-radius: 6px;
+    padding: 6px;
+}
+
+.planet-name {
+    font-size: 0.7em;
+    margin-top: 2px;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+/* Description styling */
+.loshu-desc-block {
+    margin-top: 20px;
+    padding: 16px;
+    border-radius: 10px;
+    background: #f9f9fb;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.loshu-desc-title {
+    background: linear-gradient(135deg, #d4a017, #b8860b);
+    color: #fffdf8;
+    font-size: 1.15em;
+    font-weight: 700;
+    text-align: center;
+    padding: 8px 12px;
+    margin: 16px 0 12px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    letter-spacing: 0.5px;
+}
+
+/* make list into grid */
+.loshu-desc-list {
+    list-style: none;
+    margin: 0 0 12px;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 columns */
+    gap: 10px;
+}
+
+.loshu-desc-list li {
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: .25s background;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.loshu-desc-list li:nth-child(odd) {
+    background: #f4f4f8;
+}
+
+.loshu-desc-list li:hover {
+    background: #eaf4ff;
+}
+
+.loshu-desc-list .present {
+    color: green;
+    font-weight: 700;
+}
+
+.loshu-desc-list .missing {
+    color: red;
+    font-weight: 700;
+}
+
+/* Plane list styling */
+.plane-list {
+    display: block;
+    list-style-type: disc;
+    /* standard bullets */
+    padding-left: 20px;
+    margin: 8px 0;
+}
+
+.plane-list li {
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.plane-list .present {
+    color: #1a7c1a;
+    /* green for formed planes */
+    font-weight: 600;
+}
+
+.plane-list .missing {
+    color: #c62828;
+    /* red for missing planes */
+    font-weight: 600;
+}
+
+.plane-list .desc {
+    font-size: 0.9em;
+    color: #555;
+    display: block;
+    margin-top: 3px;
+}
+
+
+/* Tablet: 2 columns */
+@media (max-width: 992px) {
+    .loshu-desc-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobile: 1 column */
+@media (max-width: 600px) {
+    .loshu-desc-list {
+        grid-template-columns: 1fr;
+    }
+
+    .loshu-desc-list li {
+        font-size: 1rem;
+        /* bump readability */
+        line-height: 1.6;
+    }
+}

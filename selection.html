@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Numerology Selection</title>
+    <link rel="stylesheet" href="selection.css">
+</head>
+<script>
+    window.onload = function () {
+        if (sessionStorage.getItem("auth") !== "true") {
+            window.location.href = "password.html"; // ❌ Kick back if not logged in
+        }
+    };
+</script>
+
+<body>
+    <div class="container">
+        <h1>Choose Your Numerology Tool</h1>
+        <div class="options">
+            <div class="card" onclick="location.href='mobile.html'">
+                <h2>Mobile Numerology</h2>
+            </div>
+            <div class="card" onclick="location.href='personal.html'">
+                <h2>Personal Numerology</h2>
+            </div>
+            <div class="card" onclick="location.href='loshugrid.html'">
+                <h2>Lo Shu Grid</h2>
+            </div>
+        </div>
+        <a href="password.html" class="logout">⬅ Logout</a>
+    </div>
+</body>
+
+</html>
