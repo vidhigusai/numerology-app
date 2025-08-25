@@ -747,7 +747,8 @@ const nameNumberData = {
             सफलता टिप: व्यावहारिक बनें और अपनी ऊर्जा केंद्रित करें।
             उपयुक्त प्रोफेशन: कलाकार, कार्यकर्ता, शिक्षक, चिकित्सक।
             सलाह: दूसरों की मदद करते हुए आत्म-देखभाल करें।`
-    }
+    },
+    default: { en: `No prediction found.`, hi: `कोई भविष्यवाणी उपलब्ध नहीं।` }
 };
 
 const soulUrgeData = {
@@ -1024,7 +1025,8 @@ const expressionData = {
             सफलता टिप: आदर्शों और व्यावहारिक प्रयासों में संतुलन रखें।
             उपयुक्त प्रोफेशन: कलाकार, कार्यकर्ता, शिक्षक, चिकित्सक।
             सलाह: अपने उदाहरण से दूसरों को प्रेरित करें।`
-    }
+    },
+    default: { en: `No prediction found.`, hi: `कोई भविष्यवाणी उपलब्ध नहीं।` }
 };
 
 const comboPredictions = {
@@ -1621,7 +1623,7 @@ function calculatePersonal() {
 
     html += `<div class="prediction-box">
         <div class="label">Name Number - ${nameNum}</div>
-        <p>${nameNumberData[nameNum][currentLang]}</p>
+        <p>${(nameNumberData[nameNum] || nameNumberData.default)[currentLang]}</p>
     </div>`;
 
     html += `<div class="prediction-box">
@@ -1631,7 +1633,7 @@ function calculatePersonal() {
 
     html += `<div class="prediction-box">
         <div class="label">Expression Number - ${expression}</div>
-        <p>${expressionData[expression][currentLang]}</p>
+        <p>${(expressionData[expression] || expressionData.default)[currentLang]}</p>
     </div>`;
 
     html += `<div class="prediction-box">
