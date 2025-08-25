@@ -16,7 +16,7 @@
             if (sessionStorage.getItem("auth") !== "true") {
                 const filename = window.location.pathname.split("/").pop();
                 sessionStorage.setItem("redirectAfterLogin", filename);
-                window.location.href = "password.html";
+                window.location.href = "index.html";
                 return;
             }
 
@@ -42,7 +42,7 @@
             <a href="personal.html">Personal Numerology</a>
             <a href="mobile.html">Mobile Numerology</a>
             <a href="loshugrid.html">Lo Shu Grid</a>
-            <a href="password.html" onclick="logout()">Logout</a>
+            <a href="index.html" onclick="logout()">Logout</a>
         </nav>
 
         <!-- <header>Personal Numerology</header> -->

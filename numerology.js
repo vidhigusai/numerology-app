@@ -2083,7 +2083,7 @@ function logout(e) {
     e?.preventDefault();
     sessionStorage.removeItem("auth");
     sessionStorage.removeItem("redirectAfterLogin");
-    window.location.href = "password.html";
+    window.location.href = "index.html";
 }
 
 
