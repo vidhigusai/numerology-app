@@ -1567,13 +1567,23 @@ function getKuaNumber(year, gender) {
     return "";
 }
 
+function getPersonalYear(today, day, month) {
+    let currentMonth = today.getMonth() + 1; // getMonth returns 0 based number.
+    let considerCurrentYear = currentMonth > month || (currentMonth === month && today.getDate() >= day);
+    let currentYear = today.getFullYear();
+    if (!considerCurrentYear) {
+        currentYear--;
+    }
+    return getSingleDigitNoMaster(getSingleDigitNoMaster(currentYear) + day + month);
+}
+
 // Page function
 function calculatePersonal() {
     const name = (document.getElementById('firstName').value + document.getElementById('middleName').value + document.getElementById('lastName').value).toUpperCase();
     const dob = document.getElementById('dob').value;
     const gender = document.getElementById('gender').value;
-    const fullName = `${firstName} ${middleName} ${lastName}`.replace(/\s+/g, ' ').trim();
     const day = parseInt(dob.substring(0, 2), 10);
+    const month = parseInt(dob.substring(2, 4), 10);
     const year = parseInt(dob.substring(4), 10);
 
     if (!name || dob.length !== 8 || !gender) {
@@ -1582,19 +1592,26 @@ function calculatePersonal() {
     }
 
     const personality = getSingleDigitNoMaster(day);
-    const destiny = getSingleDigitNoMaster(dob.split('').reduce((a, b) => +a + +b, 0));;
+    const destiny = getSingleDigitNoMaster(dob.split('').reduce((a, b) => +a + +b, 0));
     const nameNum = getNameNumber(name);
     const soulUrge = getSoulUrgeNumber(name);
     const expression = getExpressionNumber(name);
     const kua = getKuaNumber(year, gender);
+    let today = new Date();
+    const personalYear = getPersonalYear(today, day, month);
+    const personalMonth = getSingleDigitNoMaster(personalYear + (today.getMonth() + 1));
+    const personalDay = getSingleDigitNoMaster(personalMonth + (today.getDate()));
 
     let html = `<div class="main-numbers-grid">
     <div class="number-card"><div class="card-label">Personality Number</div><div class="card-value">${personality}</div></div>
     <div class="number-card"><div class="card-label">Destiny Number</div><div class="card-value">${destiny}</div></div>
+    <div class="number-card"><div class="card-label">Kua Number</div><div class="card-value">${kua}</div></div>
     <div class="number-card"><div class="card-label">Name Number</div><div class="card-value">${nameNum}</div></div>
     <div class="number-card"><div class="card-label">Soul Urge Number</div><div class="card-value">${soulUrge}</div></div>
     <div class="number-card"><div class="card-label">Expression Number</div><div class="card-value">${expression}</div></div>
-    <div class="number-card"><div class="card-label">Kua Number</div><div class="card-value">${kua}</div></div>
+    <div class="number-card"><div class="card-label">Personal Year</div><div class="card-value">${personalYear}</div></div>
+    <div class="number-card"><div class="card-label">Personal Month</div><div class="card-value">${personalMonth}</div></div>
+    <div class="number-card"><div class="card-label">Personal Day</div><div class="card-value">${personalDay}</div></div>
 </div>`;
 
     html += `<div class="prediction-box">
@@ -1908,6 +1925,22 @@ function generatePlanes(gridRepeat) {
     return `<div class="loshu-desc-block">${formedHtml}${missingHtml}${rajyogHtml}</div>`;
 }
 
+function getComplementary(gridRepeat, n) {
+    if (n === 1 && gridRepeat[9] ||
+        (n === 2 && (gridRepeat[5] || gridRepeat[7])) ||
+        (n === 3 && (gridRepeat[5] || gridRepeat[7])) ||
+        (n === 4 && gridRepeat[8]) ||
+        (n === 5 && gridRepeat[6]) ||
+        (n === 6 && gridRepeat[5]) ||
+        (n === 7 && gridRepeat[3]) ||
+        (n === 8 && gridRepeat[4]) ||
+        (n === 9 && gridRepeat[1])) {
+        return n;
+    } else {
+        return "–";
+    }
+}
+
 function generateLoshuGrid(dob, kuaNumber) {
     const dobDigits = dob.replace(/\D/g, "").split("").map(Number);
 
@@ -1963,6 +1996,16 @@ function generateLoshuGrid(dob, kuaNumber) {
     ${[4, 9, 2, 3, 5, 7, 8, 1, 6].map(n => `
         <div class="loshu-cell num-${n}">
         <div>${gridRepeat[n] || "–"}</div>
+        <div class="planet-name">${loshuPlanets[n]}</div>
+        </div>`).join("")}
+    </div>
+</div>
+<div class="loshu-grid-block reference-grid">
+    <div class="loshu-grid-title">Complementary Loshu Grid</div>
+    <div class="loshu-grid-table">
+    ${[4, 9, 2, 3, 5, 7, 8, 1, 6].map(n => `
+        <div class="loshu-cell num-${n}">
+        <div>${gridRepeat[n] || getComplementary(gridRepeat, n)}</div>
         <div class="planet-name">${loshuPlanets[n]}</div>
         </div>`).join("")}
     </div>
