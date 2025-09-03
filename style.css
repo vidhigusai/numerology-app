@@ -549,7 +549,7 @@ footer {
 /* Main Numbers Grid */
 .main-numbers-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     /* 6 cards in a row */
     gap: 16px;
     margin: 20px 0;
@@ -783,7 +783,7 @@ footer {
 
 .loshu-grid-block {
     background: #fff;
-    padding: 15px;
+    padding: 9px;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     text-align: center;
