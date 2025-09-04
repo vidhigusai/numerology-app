@@ -1864,10 +1864,69 @@ function generatePlanes(gridRepeat) {
         }
     };
 
+    const angles = [
+        {
+            numbers: [3, 9, 4],
+            desc: {
+                en: {
+                    name: "3, 9 present but, 4 absent",
+                    desc: "You may have to face litigation. You can be held responsible for things you didn't do."
+                },
+                hi: {
+                    name: "३, ९ उपस्थित लेकिन, ४ अनुपस्थित",
+                    desc: "आपको मुकदमेबाजी का सामना करना पड़ सकता है। जो काम आपने नहीं किया होगा उसके लिए आपको जिम्मेदार ठहराया जा सकता है।"
+                }
+            },
+            effect: -1
+        },
+        {
+            numbers: [7, 9, 2],
+            desc: {
+                en: {
+                    name: "7, 9 present but, 2 absent",
+                    desc: "Peace of mind."
+                },
+                hi: {
+                    name: "७, ९ उपस्थित लेकिन, २ अनुपस्थित",
+                    desc: "मन की शांति।"
+                }
+            },
+            effect: 1
+        },
+        {
+            numbers: [7, 1, 6],
+            desc: {
+                en: {
+                    name: "7, 1 present but, 6 absent",
+                    desc: "Attracted towards science. Interested in mysteries and occult science, and gets deep into it."
+                },
+                hi: {
+                    name: "७, १ उपस्थित लेकिन, ६ अनुपस्थित",
+                    desc: "विज्ञान की ओर आकर्षित। रहस्यों और गूढ़ विज्ञान में रुचि रखते हैं, और उसमें गहराई से उतरते हैं।"
+                }
+            },
+            effect: 1
+        },
+        {
+            numbers: [3, 1, 8],
+            desc: {
+                en: {
+                    name: "3, 1 present but, 8 absent",
+                    desc: "Prefers to go into details of anything. One might be cheated."
+                },
+                hi: {
+                    name: "३, १ उपस्थित लेकिन, ८ अनुपस्थित",
+                    desc: "किसी भी चीज़ के विवरण में जाना पसंद करता है। धोखा हो सकता है।"
+                }
+            },
+            effect: 0
+        }
+    ];
 
-    // Collect formed/missing plane items first, so we can render formed first
+    // Collect formed/missing planes and, angles first, so we can render formed first
     const formedItems = [];
     const missingItems = [];
+    const formedAngles = [];
 
     Object.entries(planes).forEach(([name, obj]) => {
         const isFormed = obj.numbers.every(present);
@@ -1890,6 +1949,19 @@ function generatePlanes(gridRepeat) {
             );
         }
     });
+
+    for (const {numbers, desc, effect} of angles) {
+        const isFormed = numbers.slice(0, 1).every(present) && !present(numbers[2]);
+        if (isFormed) {
+            const angleClass = (effect === 1 ? "angle-positive" : (effect === -1 ? "angle-negative" : "angle-neutral"));
+            formedAngles.push(
+                `<li>
+                    <span class="${angleClass}"> ${desc.en.name}</span>
+                    <span class="desc">${desc.en.desc}</span>
+                </li>`
+            );
+        }
+    }
 
     // Rajyog logic per your rule:
     // Golden Rajyog → 4-5-6 present
@@ -1921,8 +1993,9 @@ function generatePlanes(gridRepeat) {
     // Sections: formed first, then missing, then rajyog
     const formedHtml = `<div class="loshu-desc-title">Formed Planes</div><ul class="plane-list">${formedItems.join("") || "<li>None</li>"}</ul>`;
     const missingHtml = `<div class="loshu-desc-title">Missing Planes</div><ul class="plane-list">${missingItems.join("") || "<li>None</li>"}</ul>`;
+    const formedAngelsHtml = `<div class="loshu-desc-title">Formed Angles</div><ul class="plane-list">${formedAngles.join("") || "<li>None</li>"}</ul>`;
 
-    return `<div class="loshu-desc-block">${formedHtml}${missingHtml}${rajyogHtml}</div>`;
+    return `<div class="loshu-desc-block">${formedHtml}${missingHtml}${formedAngelsHtml}${rajyogHtml}</div>`;
 }
 
 function getComplementary(gridRepeat, n) {

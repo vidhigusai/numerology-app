@@ -1044,6 +1044,24 @@ footer {
     font-weight: 600;
 }
 
+.plane-list .angle-positive {
+    color: #1a7c1a;
+    /* green for formed planes */
+    font-weight: 600;
+}
+
+.plane-list .angle-negative {
+    color: #c62828;
+    /* red for missing planes */
+    font-weight: 600;
+}
+
+.plane-list .angle-neutral {
+    color: #1976d2;
+    /* green for formed planes */
+    font-weight: 600;
+}
+
 .plane-list .desc {
     font-size: 0.9em;
     color: #555;
