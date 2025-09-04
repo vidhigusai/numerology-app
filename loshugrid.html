@@ -32,7 +32,7 @@
     </script>
 </head>
 
-<body>
+<body data-page="loshu">
     <div class="topbar">
         <div class="hamburger" onclick="toggleMenu()">☰</div>
         <div id="menuOverlay" onclick="toggleMenu()"></div>
@@ -44,6 +44,11 @@
             <a href="index.html" onclick="logout()">Logout</a>
         </nav>
         <h1 class="page-title">LoShu Grid</h1>
+
+        <div id="langToggle" class="lang-toggle">
+            <button onclick="setLanguage('en')">English</button>
+            <button onclick="setLanguage('hi')">हिन्दी</button>
+        </div>
     </div>
     <!-- Form -->
     <div class="form-container">

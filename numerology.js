@@ -1381,29 +1381,104 @@ const chaldeanChart = {
 const vowels = ['A', 'E', 'I', 'O', 'U', 'Y'];
 
 const loshuMap = {
-    1: "Sun - Leadership, confidence, individuality",
-    2: "Moon - Sensitivity, emotions, creativity",
-    3: "Jupiter - Wisdom, knowledge, communication",
-    4: "Rahu - Planning, discipline, hard work",
-    5: "Mercury - Intelligence, adaptability, quick decisions",
-    6: "Venus - Love, beauty, relationships",
-    7: "Ketu - Spirituality, detachment, intuition",
-    8: "Saturn - Hardship, patience, discipline",
-    9: "Mars - Energy, courage, aggression"
+    1: {
+        en: {
+            basic: "Sun - Leadership, confidence, individuality"
+        },
+        hi: {
+            basic: "सूर्य - नेतृत्व, आत्मविश्वास, व्यक्तित्व"
+        }
+    },
+    2: {
+        en: {
+            basic: "Moon - Sensitivity, emotions, creativity"
+        },
+        hi: {
+            basic: "चंद्रमा - संवेदनशीलता, भावनाएँ, रचनात्मकता"
+        }
+    },
+    3: {
+        en: {
+            basic:  "Jupiter - Wisdom, knowledge, communication"
+        },
+        hi: {
+            basic: "गुरु - बुद्धि, ज्ञान, संचार"
+        }
+    },
+    4: {
+        en: {
+            basic:  "Rahu - Planning, discipline, hard work"
+        },
+        hi: {
+            basic: "राहु - योजना, अनुशासन, कड़ी मेहनत"
+        }
+    },
+    5: {
+        en: {
+            basic:  "Mercury - Intelligence, adaptability, quick decisions"
+        },
+        hi: {
+            basic: "बुध - बुद्धिमत्ता, अनुकूलनशीलता, त्वरित निर्णय"
+        }
+    },
+    6: {
+        en: {
+            basic:  "Venus - Love, beauty, relationships"
+        },
+        hi: {
+            basic: "शुक्र - प्रेम, सौंदर्य, रिश्ते"
+        }
+    },
+    7: {
+        en: {
+            basic:  "Ketu - Spirituality, detachment, intuition"
+        },
+        hi: {
+            basic: "केतु - आध्यात्मिकता, वैराग्य, अंतर्ज्ञान"
+        }
+    },
+    8: {
+        en: {
+            basic:  "Saturn - Hardship, patience, discipline"
+        },
+        hi: {
+            basic: "शनि - कठिनाई, धैर्य, अनुशासन"
+        }
+    },
+    9: {
+        en: {
+            basic:  "Mars - Energy, courage, aggression"
+        },
+        hi: {
+            basic: "मंगल - ऊर्जा, साहस, आक्रामकता"
+        }
+    }
 };
 
 const missingMap = {
-    1: "Lack of confidence or leadership qualities.",
-    2: "Difficulty expressing emotions, lack of sensitivity.",
-    3: "Challenges in communication and learning.",
-    4: "Lack of stability, poor planning skills.",
-    5: "Difficulty adapting, indecisiveness.",
-    6: "Challenges in relationships, lack of harmony.",
-    7: "Disconnected from spirituality or intuition.",
-    8: "Struggles with discipline, impatience.",
-    9: "Low energy, lack of courage."
+    1: { en: "Lack of confidence or leadership qualities", hi: "आत्मविश्वास या नेतृत्व गुणों की कमी" },
+    2: { en: "Difficulty expressing emotions, lack of sensitivity", hi: "भावनाओं को व्यक्त करने में कठिनाई, संवेदनशीलता की कमी" },
+    3: { en: "Challenges in communication and learning", hi: "संचार और सीखने में चुनौतियाँ" },
+    4: { en: "Lack of stability, poor planning skills", hi: "स्थिरता की कमी, खराब योजना कौशल" },
+    5: { en: "Difficulty adapting, indecisiveness", hi: "अनुकूलन में कठिनाई, अनिर्णय" },
+    6: { en: "Challenges in relationships, lack of harmony", hi: "रिश्तों में चुनौतियाँ, सामंजस्य की कमी" },
+    7: { en: "Disconnected from spirituality or intuition", hi: "आध्यात्मिकता या अंतर्ज्ञान से विमुख" },
+    8: { en: "Struggles with discipline, impatience", hi: "अनुशासन और अधीरता से संघर्ष" },
+    9: { en: "Low energy, lack of courage", hi: "कम ऊर्जा, साहस की कमी" }
 };
 
+const hindiNumbers = {
+    0: '०',
+    1: '१',
+    2: '२',
+    3: '३',
+    4: '४',
+    5: '५',
+    6: '६',
+    7: '७',
+    8: '८',
+    9: '९'
+}
 
 // function downloadReport() {
 //     const firstName = document.getElementById("firstName").value.trim();
@@ -1689,8 +1764,6 @@ function checkPersonalityMobileMatch(personalityOutput, finalDigit) {
         return `<span style="color:green;"><strong>✅ Matched, Good</strong></span>`;
     }
 }
-
-
 
 function calculateMobile() {
     const mobile = document.getElementById("mobileNumber").value.trim();
@@ -2109,6 +2182,16 @@ function generateLoShuGrid(dob, kuaNumber) {
     </div>
 </div>`;
 
+    function getCount(num) {
+        if (currentLang === 'en') {
+            return `Present ${gridRepeat[num].length} time${gridRepeat[num].length > 1 ? "s" : ""}`;
+        } else if (currentLang === 'hi') {
+            return `${hindiNumbers[gridRepeat[num].length]} बार मौजुद`;
+        } else {
+            return '';
+        }
+    }
+
     // ---------------- Descriptions ----------------
     let descHtml = `
     <div class="loshu-desc-block">
@@ -2117,7 +2200,7 @@ function generateLoShuGrid(dob, kuaNumber) {
         ${[...Array(9).keys()].map(i => {
         const num = i + 1;
         return gridRepeat[num] !== ""
-            ? `<li><span class="present">${num}:</span> ${loshuMap[num]} <br><span class="present">(Present ${gridRepeat[num].length} time${gridRepeat[num].length > 1 ? "s" : ""})</span></li>`
+            ? `<li><span class="present">${currentLang === 'en' ? num : hindiNumbers[num]}:</span> ${loshuMap[num][currentLang].basic} <br><span class="present">${getCount(num)}</span></li>`
             : "";
     }).join("")}
         </ul>
@@ -2126,7 +2209,7 @@ function generateLoShuGrid(dob, kuaNumber) {
         ${[...Array(9).keys()].map(i => {
         const num = i + 1;
         return gridRepeat[num] === ""
-            ? `<li><span class="missing">${num}:</span> ${missingMap[num]}</li>`
+            ? `<li><span class="missing">${currentLang === 'en' ? num : hindiNumbers[num]}:</span> ${missingMap[num][currentLang]}</li>`
             : "";
     }).join("")}
         </ul>
@@ -2157,6 +2240,7 @@ function generateLoShuGrid(dob, kuaNumber) {
 
     return `<div class="loshu-wrapper">${gridHtmlReference}${gridHtmlUser}${vedicGridRef}${vedicGridUser}</div>${descHtml}`;
 }
+
 function calculateLoShu() {
     const dob = document.getElementById("dob").value.trim();
     const gender = document.getElementById("gender").value;
