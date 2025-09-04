@@ -1468,7 +1468,7 @@ function setLanguage(lang) {
 }
 
 
-function getPersonalityNumber(dobDigits) {                   //for Loshu Grid
+function getPersonalityNumber(dobDigits) {                   //for LoShu Grid
     const date = parseInt(dobDigits.slice(0, 2).join(""), 10);
     if (date < 0 || date > 31) {
         alert("Invalid date");
@@ -1481,7 +1481,7 @@ function getPersonalityNumber(dobDigits) {                   //for Loshu Grid
     }
 }
 
-function getDestinyNumber(dobDigits) {                      // for Loshu Grid
+function getDestinyNumber(dobDigits) {                      // for LoShu Grid
     const sum = dobDigits.reduce((a, b) => a + b, 0);
     return sum % 9 === 0 ? 9 : sum % 9;
 }
@@ -1798,9 +1798,9 @@ function calculateMobile() {
     document.getElementById("actionButtons").style.display = "flex";
 }
 
-// ------------------ Loshu Grid ------------------ //
-// ✅ Loshu planets
-const loshuPlanets = {
+// ------------------ LoShu Grid ------------------ //
+// ✅ LoShu planets
+const loShuPlanets = {
     1: "Sun", 2: "Moon", 3: "Jupiter", 4: "Rahu",
     5: "Mercury", 6: "Venus", 7: "Ketu", 8: "Saturn", 9: "Mars"
 };
@@ -1832,7 +1832,7 @@ const vedicTraits = {
 };
 
 
-// Build formed/missing planes + Rajyog status for the Lo Shu grid
+// Build formed/missing planes + Rajyog status for the LoShu grid
 function generatePlanes(gridRepeat) {
     // helper: is number present in grid?
     const present = n => !!(gridRepeat?.[n]?.length);
@@ -2014,10 +2014,10 @@ function getComplementary(gridRepeat, n) {
     }
 }
 
-function generateLoshuGrid(dob, kuaNumber) {
+function generateLoShuGrid(dob, kuaNumber) {
     const dobDigits = dob.replace(/\D/g, "").split("").map(Number);
 
-    // Normal Loshu numbers
+    // Normal LoShu numbers
     const personalityNumber = getPersonalityNumber(dobDigits);
     const destinyNumber = getDestinyNumber(dobDigits);
 
@@ -2049,37 +2049,37 @@ function generateLoshuGrid(dob, kuaNumber) {
         vedicRepeat[i] = vedicCount > 0 ? i.toString().repeat(vedicCount) : "";
     }
 
-    // ---------------- Loshu Grids ----------------
+    // ---------------- LoShu Grids ----------------
     const gridHtmlReference = `
     <div class="loshu-grid-block reference-grid">
-    <div class="loshu-grid-title">Reference Loshu Grid</div>
+    <div class="loshu-grid-title">Reference LoShu Grid</div>
     <div class="loshu-grid-table">
     ${[4, 9, 2, 3, 5, 7, 8, 1, 6].map(n => `
         <div class="loshu-cell num-${n}">
         <div>${n}</div>
-        <div class="planet-name">${loshuPlanets[n]}</div>
+        <div class="planet-name">${loShuPlanets[n]}</div>
         </div>`).join("")}
     </div>
 </div>`;
 
     const gridHtmlUser = `
     <div class="loshu-grid-block reference-grid">
-    <div class="loshu-grid-title">Your Loshu Grid</div>
+    <div class="loshu-grid-title">Your LoShu Grid</div>
     <div class="loshu-grid-table">
     ${[4, 9, 2, 3, 5, 7, 8, 1, 6].map(n => `
         <div class="loshu-cell num-${n}">
         <div>${gridRepeat[n] || "–"}</div>
-        <div class="planet-name">${loshuPlanets[n]}</div>
+        <div class="planet-name">${loShuPlanets[n]}</div>
         </div>`).join("")}
     </div>
 </div>
 <div class="loshu-grid-block reference-grid">
-    <div class="loshu-grid-title">Complementary Loshu Grid</div>
+    <div class="loshu-grid-title">Complementary LoShu Grid</div>
     <div class="loshu-grid-table">
     ${[4, 9, 2, 3, 5, 7, 8, 1, 6].map(n => `
         <div class="loshu-cell num-${n}">
         <div>${gridRepeat[n] || getComplementary(gridRepeat, n)}</div>
-        <div class="planet-name">${loshuPlanets[n]}</div>
+        <div class="planet-name">${loShuPlanets[n]}</div>
         </div>`).join("")}
     </div>
 </div>`;
@@ -2112,7 +2112,7 @@ function generateLoshuGrid(dob, kuaNumber) {
     // ---------------- Descriptions ----------------
     let descHtml = `
     <div class="loshu-desc-block">
-        <div class="loshu-desc-title">Loshu Number Descriptions</div>
+        <div class="loshu-desc-title">LoShu Number Descriptions</div>
         <ul class="loshu-desc-list">
         ${[...Array(9).keys()].map(i => {
         const num = i + 1;
@@ -2121,7 +2121,7 @@ function generateLoshuGrid(dob, kuaNumber) {
             : "";
     }).join("")}
         </ul>
-        <div class="loshu-desc-title">Loshu Missing Numbers</div>
+        <div class="loshu-desc-title">LoShu Missing Numbers</div>
         <ul class="loshu-desc-list">
         ${[...Array(9).keys()].map(i => {
         const num = i + 1;
@@ -2169,13 +2169,13 @@ function calculateLoShu() {
     const year = parseInt(dob.substring(4), 10);
     const kuaNumber = getKuaNumber(year, gender);
 
-    // ✅ Generate Loshu + Vedic grids
-    const gridHtml = generateLoshuGrid(dob, kuaNumber);
+    // ✅ Generate LoShu + Vedic grids
+    const gridHtml = generateLoShuGrid(dob, kuaNumber);
 
     // ✅ Render results
     document.getElementById("loshuResults").innerHTML = `
     <div class="prediction-box">
-        <div class="label">Your Lo Shu & Vedic Grid Analysis</div>
+        <div class="label">Your LoShu & Vedic Grid Analysis</div>
         ${gridHtml}
     </div>
 `;
