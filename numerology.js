@@ -1890,17 +1890,16 @@ const vedicPlanets = {
 
 // ✅ Vedic traits (for descriptions)
 const vedicTraits = {
-    1: "authority, power, strength, ego",
-    2: "attraction, sudden variability, sensitivity, feelings, emotions",
-    3: "spirituality, friendliness, discipline, expansion, wisdom",
-    4: "impulsiveness, mysteriousness, instauration",
-    5: "entertainment, intelligence, continuous variability",
-    6: "beauty, elegance, art, sensitivity",
-    7: "mysticism, intuition, originality",
-    8: "wisdom, workability, sadness, sorrow",
-    9: "strength, militancy, simplicity, courage"
+    1: { en: "authority, power, strength, ego", hi: "अधिकार, शक्ति, ताकत, अहंकार" },
+    2: { en: "attraction, sudden variability, sensitivity, feelings, emotions", hi: "आकर्षण, अचानक परिवर्तनशीलता, संवेदनशीलता, भावनाएँ, संवेदनाएँ" },
+    3: { en: "spirituality, friendliness, discipline, expansion, wisdom", hi: "आध्यात्मिकता, मित्रता, अनुशासन, विस्तार, ज्ञान" },
+    4: { en: "impulsiveness, mysteriousness, instauration", hi: "आवेगशीलता, रहस्यमयता, स्थापना" },
+    5: { en: "entertainment, intelligence, continuous variability", hi: "मनोरंजन, बुद्धिमत्ता, निरंतर परिवर्तनशीलता" },
+    6: { en: "beauty, elegance, art, sensitivity", hi: "सौंदर्य, लालित्य, कला, संवेदनशीलता" },
+    7: { en: "mysticism, intuition, originality", hi: "रहस्यवाद, अंतर्ज्ञान, मौलिकता" },
+    8: { en: "wisdom, workability, sadness, sorrow", hi: "बुद्धि, कार्यशीलता, उदासी, दुःख" },
+    9: { en: "strength, militancy, simplicity, courage", hi: "शक्ति, उग्रता, सरलता, साहस" }
 };
-
 
 // Build formed/missing planes + Rajyog status for the LoShu grid
 function generatePlanes(gridRepeat) {
@@ -2219,7 +2218,7 @@ function generateLoShuGrid(dob, kuaNumber) {
         ${[...Array(9).keys()].map(i => {
         const num = i + 1;
         return vedicRepeat[num] !== ""
-            ? `<li><span class="present">${num}:</span> ${vedicPlanets[num][currentLang]} → ${vedicTraits[num]} <br><span class="present">(Present ${vedicRepeat[num].length} time${vedicRepeat[num].length > 1 ? "s" : ""})</span></li>`
+            ? `<li><span class="present">${numbers[currentLang][num]}:</span> ${vedicPlanets[num][currentLang]} → ${vedicTraits[num][currentLang]} <br><span class="present">(Present ${vedicRepeat[num].length} time${vedicRepeat[num].length > 1 ? "s" : ""})</span></li>`
             : "";
     }).join("")}
         </ul>
@@ -2228,7 +2227,7 @@ function generateLoShuGrid(dob, kuaNumber) {
         ${[...Array(9).keys()].map(i => {
         const num = i + 1;
         return vedicRepeat[num] === ""
-            ? `<li><span class="missing">${num}:</span> ${vedicPlanets[num][currentLang]} → ${vedicTraits[num]}</li>`
+            ? `<li><span class="missing">${numbers[currentLang][num]}:</span> ${vedicPlanets[num][currentLang]} → ${vedicTraits[num][currentLang]}</li>`
             : "";
     }).join("")}
         </ul>
