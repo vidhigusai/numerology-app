@@ -1467,17 +1467,13 @@ const missingMap = {
     9: { en: "Low energy, lack of courage", hi: "कम ऊर्जा, साहस की कमी" }
 };
 
-const hindiNumbers = {
-    0: '०',
-    1: '१',
-    2: '२',
-    3: '३',
-    4: '४',
-    5: '५',
-    6: '६',
-    7: '७',
-    8: '८',
-    9: '९'
+const numbers = {
+    'hi' : {
+        0: '०', 1: '१', 2: '२', 3: '३', 4: '४', 5: '५', 6: '६', 7: '७', 8: '८', 9: '९'
+    },
+    'en' : {
+        0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9
+    }
 }
 
 // function downloadReport() {
@@ -1874,21 +1870,22 @@ function calculateMobile() {
 // ------------------ LoShu Grid ------------------ //
 // ✅ LoShu planets
 const loShuPlanets = {
-    1: "Sun", 2: "Moon", 3: "Jupiter", 4: "Rahu",
-    5: "Mercury", 6: "Venus", 7: "Ketu", 8: "Saturn", 9: "Mars"
+    1: { en: "Sun", hi: "सूर्य" }, 2: { en: "Moon", hi: "चंद्र" }, 3: { en: "Jupiter", hi: "गुरु" },
+    4: { en: "Rahu", hi: "राहु" }, 5: { en: "Mercury", hi: "बुध" }, 6: { en: "Venus", hi: "शुक्र" },
+    7: { en: "Ketu", hi: "केतु" }, 8: { en: "Saturn", hi: "शनि" }, 9: { en: "Mars", hi: "मंगल" }
 };
 
 // ✅ Vedic planets (names)
 const vedicPlanets = {
-    1: "Surya",
-    2: "Chandra",
-    3: "Guru",
-    4: "Rahu",
-    5: "Buddha",
-    6: "Shukra",
-    7: "Ketu",
-    8: "Shani",
-    9: "Mangal"
+    1: { en: "Surya", hi: "सूर्य" },
+    2: { en: "Chandra", hi: "चंद्र" },
+    3: { en: "Guru", hi: "गुरु" },
+    4: { en: "Rahu", hi: "राहु" },
+    5: { en: "Buddha", hi: "बुध" },
+    6: { en: "Shukra", hi: "शुक्र" },
+    7: { en: "Ketu", hi: "केतु" },
+    8: { en: "Shani", hi: "शनि" },
+    9: { en: "Mangal", hi: "मंगल" }
 };
 
 // ✅ Vedic traits (for descriptions)
@@ -2081,7 +2078,7 @@ function getComplementary(gridRepeat, n) {
         (n === 7 && gridRepeat[3]) ||
         (n === 8 && gridRepeat[4]) ||
         (n === 9 && gridRepeat[1])) {
-        return n;
+        return numbers[currentLang][n];
     } else {
         return "–";
     }
@@ -2118,8 +2115,8 @@ function generateLoShuGrid(dob, kuaNumber) {
         const loshuCount = pool.filter(d => d === i).length;
         const vedicCount = vedicPool.filter(d => d === i).length;
 
-        gridRepeat[i] = loshuCount > 0 ? i.toString().repeat(loshuCount) : "";
-        vedicRepeat[i] = vedicCount > 0 ? i.toString().repeat(vedicCount) : "";
+        gridRepeat[i] = loshuCount > 0 ? numbers[currentLang][i].toString().repeat(loshuCount) : "";
+        vedicRepeat[i] = vedicCount > 0 ? numbers[currentLang][i].toString().repeat(vedicCount) : "";
     }
 
     // ---------------- LoShu Grids ----------------
@@ -2129,8 +2126,8 @@ function generateLoShuGrid(dob, kuaNumber) {
     <div class="loshu-grid-table">
     ${[4, 9, 2, 3, 5, 7, 8, 1, 6].map(n => `
         <div class="loshu-cell num-${n}">
-        <div>${n}</div>
-        <div class="planet-name">${loShuPlanets[n]}</div>
+        <div>${numbers[currentLang][n]}</div>
+        <div class="planet-name">${loShuPlanets[n][currentLang]}</div>
         </div>`).join("")}
     </div>
 </div>`;
@@ -2142,7 +2139,7 @@ function generateLoShuGrid(dob, kuaNumber) {
     ${[4, 9, 2, 3, 5, 7, 8, 1, 6].map(n => `
         <div class="loshu-cell num-${n}">
         <div>${gridRepeat[n] || "–"}</div>
-        <div class="planet-name">${loShuPlanets[n]}</div>
+        <div class="planet-name">${loShuPlanets[n][currentLang]}</div>
         </div>`).join("")}
     </div>
 </div>
@@ -2152,7 +2149,7 @@ function generateLoShuGrid(dob, kuaNumber) {
     ${[4, 9, 2, 3, 5, 7, 8, 1, 6].map(n => `
         <div class="loshu-cell num-${n}">
         <div>${gridRepeat[n] || getComplementary(gridRepeat, n)}</div>
-        <div class="planet-name">${loShuPlanets[n]}</div>
+        <div class="planet-name">${loShuPlanets[n][currentLang]}</div>
         </div>`).join("")}
     </div>
 </div>`;
@@ -2164,8 +2161,8 @@ function generateLoShuGrid(dob, kuaNumber) {
     <div class="loshu-grid-table">
     ${[3, 1, 9, 6, 7, 5, 2, 8, 4].map(n => `
         <div class="loshu-cell num-${n}">
-        <div>${n}</div>
-        <div class="planet-name">${vedicPlanets[n]}</div>
+        <div>${numbers[currentLang][n]}</div>
+        <div class="planet-name">${vedicPlanets[n][currentLang]}</div>
         </div>`).join("")}
     </div>
 </div>`;
@@ -2177,7 +2174,7 @@ function generateLoShuGrid(dob, kuaNumber) {
     ${[3, 1, 9, 6, 7, 5, 2, 8, 4].map(n => `
         <div class="loshu-cell num-${n}">
         <div>${vedicRepeat[n] || "–"}</div>
-        <div class="planet-name">${vedicPlanets[n]}</div>
+        <div class="planet-name">${vedicPlanets[n][currentLang]}</div>
         </div>`).join("")}
     </div>
 </div>`;
@@ -2186,7 +2183,7 @@ function generateLoShuGrid(dob, kuaNumber) {
         if (currentLang === 'en') {
             return `Present ${gridRepeat[num].length} time${gridRepeat[num].length > 1 ? "s" : ""}`;
         } else if (currentLang === 'hi') {
-            return `${hindiNumbers[gridRepeat[num].length]} बार मौजुद`;
+            return `${numbers['hi'][gridRepeat[num].length]} बार मौजुद`;
         } else {
             return '';
         }
@@ -2200,7 +2197,7 @@ function generateLoShuGrid(dob, kuaNumber) {
         ${[...Array(9).keys()].map(i => {
         const num = i + 1;
         return gridRepeat[num] !== ""
-            ? `<li><span class="present">${currentLang === 'en' ? num : hindiNumbers[num]}:</span> ${loshuMap[num][currentLang].basic} <br><span class="present">${getCount(num)}</span></li>`
+            ? `<li><span class="present">${numbers[currentLang][num]}:</span> ${loshuMap[num][currentLang].basic} <br><span class="present">${getCount(num)}</span></li>`
             : "";
     }).join("")}
         </ul>
@@ -2209,7 +2206,7 @@ function generateLoShuGrid(dob, kuaNumber) {
         ${[...Array(9).keys()].map(i => {
         const num = i + 1;
         return gridRepeat[num] === ""
-            ? `<li><span class="missing">${currentLang === 'en' ? num : hindiNumbers[num]}:</span> ${missingMap[num][currentLang]}</li>`
+            ? `<li><span class="missing">${numbers[currentLang][num]}:</span> ${missingMap[num][currentLang]}</li>`
             : "";
     }).join("")}
         </ul>
@@ -2222,7 +2219,7 @@ function generateLoShuGrid(dob, kuaNumber) {
         ${[...Array(9).keys()].map(i => {
         const num = i + 1;
         return vedicRepeat[num] !== ""
-            ? `<li><span class="present">${num}:</span> ${vedicPlanets[num]} → ${vedicTraits[num]} <br><span class="present">(Present ${vedicRepeat[num].length} time${vedicRepeat[num].length > 1 ? "s" : ""})</span></li>`
+            ? `<li><span class="present">${num}:</span> ${vedicPlanets[num][currentLang]} → ${vedicTraits[num]} <br><span class="present">(Present ${vedicRepeat[num].length} time${vedicRepeat[num].length > 1 ? "s" : ""})</span></li>`
             : "";
     }).join("")}
         </ul>
@@ -2231,7 +2228,7 @@ function generateLoShuGrid(dob, kuaNumber) {
         ${[...Array(9).keys()].map(i => {
         const num = i + 1;
         return vedicRepeat[num] === ""
-            ? `<li><span class="missing">${num}:</span> ${vedicPlanets[num]} → ${vedicTraits[num]}</li>`
+            ? `<li><span class="missing">${num}:</span> ${vedicPlanets[num][currentLang]} → ${vedicTraits[num]}</li>`
             : "";
     }).join("")}
         </ul>
