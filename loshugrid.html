@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lo Shu Grid Numerology</title>
+    <title>LoShu Grid Numerology</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.12.0/html2pdf.bundle.min.js"></script>
     <script src="numerology.js" defer></script>
     <script src="download.js" defer></script>
     <script>
@@ -32,7 +32,7 @@
     </script>
 </head>
 
-<body>
+<body data-page="loshu">
     <div class="topbar">
         <div class="hamburger" onclick="toggleMenu()">☰</div>
         <div id="menuOverlay" onclick="toggleMenu()"></div>
@@ -40,10 +40,15 @@
             <div class="menu-header">🔮 Numerology App</div>
             <a href="personal.html">Personal Numerology</a>
             <a href="mobile.html">Mobile Numerology</a>
-            <a href="loshugrid.html">Lo Shu Grid</a>
+            <a href="loshugrid.html">LoShu Grid</a>
             <a href="index.html" onclick="logout()">Logout</a>
         </nav>
-        <h1 class="page-title">Lo Shu Grid</h1>
+        <h1 class="page-title">LoShu Grid</h1>
+
+        <div id="langToggle" class="lang-toggle">
+            <button onclick="setLanguage('en')">English</button>
+            <button onclick="setLanguage('hi')">हिन्दी</button>
+        </div>
     </div>
     <!-- Form -->
     <div class="form-container">

@@ -1381,29 +1381,100 @@ const chaldeanChart = {
 const vowels = ['A', 'E', 'I', 'O', 'U', 'Y'];
 
 const loshuMap = {
-    1: "Sun - Leadership, confidence, individuality",
-    2: "Moon - Sensitivity, emotions, creativity",
-    3: "Jupiter - Wisdom, knowledge, communication",
-    4: "Rahu - Planning, discipline, hard work",
-    5: "Mercury - Intelligence, adaptability, quick decisions",
-    6: "Venus - Love, beauty, relationships",
-    7: "Ketu - Spirituality, detachment, intuition",
-    8: "Saturn - Hardship, patience, discipline",
-    9: "Mars - Energy, courage, aggression"
+    1: {
+        en: {
+            basic: "Sun - Leadership, confidence, individuality"
+        },
+        hi: {
+            basic: "सूर्य - नेतृत्व, आत्मविश्वास, व्यक्तित्व"
+        }
+    },
+    2: {
+        en: {
+            basic: "Moon - Sensitivity, emotions, creativity"
+        },
+        hi: {
+            basic: "चंद्रमा - संवेदनशीलता, भावनाएँ, रचनात्मकता"
+        }
+    },
+    3: {
+        en: {
+            basic:  "Jupiter - Wisdom, knowledge, communication"
+        },
+        hi: {
+            basic: "गुरु - बुद्धि, ज्ञान, संचार"
+        }
+    },
+    4: {
+        en: {
+            basic:  "Rahu - Planning, discipline, hard work"
+        },
+        hi: {
+            basic: "राहु - योजना, अनुशासन, कड़ी मेहनत"
+        }
+    },
+    5: {
+        en: {
+            basic:  "Mercury - Intelligence, adaptability, quick decisions"
+        },
+        hi: {
+            basic: "बुध - बुद्धिमत्ता, अनुकूलनशीलता, त्वरित निर्णय"
+        }
+    },
+    6: {
+        en: {
+            basic:  "Venus - Love, beauty, relationships"
+        },
+        hi: {
+            basic: "शुक्र - प्रेम, सौंदर्य, रिश्ते"
+        }
+    },
+    7: {
+        en: {
+            basic:  "Ketu - Spirituality, detachment, intuition"
+        },
+        hi: {
+            basic: "केतु - आध्यात्मिकता, वैराग्य, अंतर्ज्ञान"
+        }
+    },
+    8: {
+        en: {
+            basic:  "Saturn - Hardship, patience, discipline"
+        },
+        hi: {
+            basic: "शनि - कठिनाई, धैर्य, अनुशासन"
+        }
+    },
+    9: {
+        en: {
+            basic:  "Mars - Energy, courage, aggression"
+        },
+        hi: {
+            basic: "मंगल - ऊर्जा, साहस, आक्रामकता"
+        }
+    }
 };
 
 const missingMap = {
-    1: "Lack of confidence or leadership qualities.",
-    2: "Difficulty expressing emotions, lack of sensitivity.",
-    3: "Challenges in communication and learning.",
-    4: "Lack of stability, poor planning skills.",
-    5: "Difficulty adapting, indecisiveness.",
-    6: "Challenges in relationships, lack of harmony.",
-    7: "Disconnected from spirituality or intuition.",
-    8: "Struggles with discipline, impatience.",
-    9: "Low energy, lack of courage."
+    1: { en: "Lack of confidence or leadership qualities", hi: "आत्मविश्वास या नेतृत्व गुणों की कमी" },
+    2: { en: "Difficulty expressing emotions, lack of sensitivity", hi: "भावनाओं को व्यक्त करने में कठिनाई, संवेदनशीलता की कमी" },
+    3: { en: "Challenges in communication and learning", hi: "संचार और सीखने में चुनौतियाँ" },
+    4: { en: "Lack of stability, poor planning skills", hi: "स्थिरता की कमी, खराब योजना कौशल" },
+    5: { en: "Difficulty adapting, indecisiveness", hi: "अनुकूलन में कठिनाई, अनिर्णय" },
+    6: { en: "Challenges in relationships, lack of harmony", hi: "रिश्तों में चुनौतियाँ, सामंजस्य की कमी" },
+    7: { en: "Disconnected from spirituality or intuition", hi: "आध्यात्मिकता या अंतर्ज्ञान से विमुख" },
+    8: { en: "Struggles with discipline, impatience", hi: "अनुशासन और अधीरता से संघर्ष" },
+    9: { en: "Low energy, lack of courage", hi: "कम ऊर्जा, साहस की कमी" }
 };
 
+const numbers = {
+    'hi' : {
+        0: '०', 1: '१', 2: '२', 3: '३', 4: '४', 5: '५', 6: '६', 7: '७', 8: '८', 9: '९'
+    },
+    'en' : {
+        0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9
+    }
+}
 
 // function downloadReport() {
 //     const firstName = document.getElementById("firstName").value.trim();
@@ -1468,7 +1539,7 @@ function setLanguage(lang) {
 }
 
 
-function getPersonalityNumber(dobDigits) {                   //for Loshu Grid
+function getPersonalityNumber(dobDigits) {                   //for LoShu Grid
     const date = parseInt(dobDigits.slice(0, 2).join(""), 10);
     if (date < 0 || date > 31) {
         alert("Invalid date");
@@ -1481,7 +1552,7 @@ function getPersonalityNumber(dobDigits) {                   //for Loshu Grid
     }
 }
 
-function getDestinyNumber(dobDigits) {                      // for Loshu Grid
+function getDestinyNumber(dobDigits) {                      // for LoShu Grid
     const sum = dobDigits.reduce((a, b) => a + b, 0);
     return sum % 9 === 0 ? 9 : sum % 9;
 }
@@ -1690,8 +1761,6 @@ function checkPersonalityMobileMatch(personalityOutput, finalDigit) {
     }
 }
 
-
-
 function calculateMobile() {
     const mobile = document.getElementById("mobileNumber").value.trim();
     if (!/^\d{10}$/.test(mobile)) {
@@ -1798,41 +1867,41 @@ function calculateMobile() {
     document.getElementById("actionButtons").style.display = "flex";
 }
 
-// ------------------ Loshu Grid ------------------ //
-// ✅ Loshu planets
-const loshuPlanets = {
-    1: "Sun", 2: "Moon", 3: "Jupiter", 4: "Rahu",
-    5: "Mercury", 6: "Venus", 7: "Ketu", 8: "Saturn", 9: "Mars"
+// ------------------ LoShu Grid ------------------ //
+// ✅ LoShu planets
+const loShuPlanets = {
+    1: { en: "Sun", hi: "सूर्य" }, 2: { en: "Moon", hi: "चंद्र" }, 3: { en: "Jupiter", hi: "गुरु" },
+    4: { en: "Rahu", hi: "राहु" }, 5: { en: "Mercury", hi: "बुध" }, 6: { en: "Venus", hi: "शुक्र" },
+    7: { en: "Ketu", hi: "केतु" }, 8: { en: "Saturn", hi: "शनि" }, 9: { en: "Mars", hi: "मंगल" }
 };
 
 // ✅ Vedic planets (names)
 const vedicPlanets = {
-    1: "Surya",
-    2: "Chandra",
-    3: "Guru",
-    4: "Rahu",
-    5: "Buddha",
-    6: "Shukra",
-    7: "Ketu",
-    8: "Shani",
-    9: "Mangal"
+    1: { en: "Surya", hi: "सूर्य" },
+    2: { en: "Chandra", hi: "चंद्र" },
+    3: { en: "Guru", hi: "गुरु" },
+    4: { en: "Rahu", hi: "राहु" },
+    5: { en: "Buddha", hi: "बुध" },
+    6: { en: "Shukra", hi: "शुक्र" },
+    7: { en: "Ketu", hi: "केतु" },
+    8: { en: "Shani", hi: "शनि" },
+    9: { en: "Mangal", hi: "मंगल" }
 };
 
 // ✅ Vedic traits (for descriptions)
 const vedicTraits = {
-    1: "authority, power, strength, ego",
-    2: "attraction, sudden variability, sensitivity, feelings, emotions",
-    3: "spirituality, friendliness, discipline, expansion, wisdom",
-    4: "impulsiveness, mysteriousness, instauration",
-    5: "entertainment, intelligence, continuous variability",
-    6: "beauty, elegance, art, sensitivity",
-    7: "mysticism, intuition, originality",
-    8: "wisdom, workability, sadness, sorrow",
-    9: "strength, militancy, simplicity, courage"
+    1: { en: "authority, power, strength, ego", hi: "अधिकार, शक्ति, ताकत, अहंकार" },
+    2: { en: "attraction, sudden variability, sensitivity, feelings, emotions", hi: "आकर्षण, अचानक परिवर्तनशीलता, संवेदनशीलता, भावनाएँ, संवेदनाएँ" },
+    3: { en: "spirituality, friendliness, discipline, expansion, wisdom", hi: "आध्यात्मिकता, मित्रता, अनुशासन, विस्तार, ज्ञान" },
+    4: { en: "impulsiveness, mysteriousness, instauration", hi: "आवेगशीलता, रहस्यमयता, स्थापना" },
+    5: { en: "entertainment, intelligence, continuous variability", hi: "मनोरंजन, बुद्धिमत्ता, निरंतर परिवर्तनशीलता" },
+    6: { en: "beauty, elegance, art, sensitivity", hi: "सौंदर्य, लालित्य, कला, संवेदनशीलता" },
+    7: { en: "mysticism, intuition, originality", hi: "रहस्यवाद, अंतर्ज्ञान, मौलिकता" },
+    8: { en: "wisdom, workability, sadness, sorrow", hi: "बुद्धि, कार्यशीलता, उदासी, दुःख" },
+    9: { en: "strength, militancy, simplicity, courage", hi: "शक्ति, उग्रता, सरलता, साहस" }
 };
 
-
-// Build formed/missing planes + Rajyog status for the Lo Shu grid
+// Build formed/missing planes + Rajyog status for the LoShu grid
 function generatePlanes(gridRepeat) {
     // helper: is number present in grid?
     const present = n => !!(gridRepeat?.[n]?.length);
@@ -1864,10 +1933,69 @@ function generatePlanes(gridRepeat) {
         }
     };
 
+    const angles = [
+        {
+            numbers: [3, 9, 4],
+            desc: {
+                en: {
+                    name: "3, 9 present but, 4 absent",
+                    desc: "You may have to face litigation. You can be held responsible for things you didn't do."
+                },
+                hi: {
+                    name: "३, ९ उपस्थित लेकिन, ४ अनुपस्थित",
+                    desc: "आपको मुकदमेबाजी का सामना करना पड़ सकता है। जो काम आपने नहीं किया होगा उसके लिए आपको जिम्मेदार ठहराया जा सकता है।"
+                }
+            },
+            effect: -1
+        },
+        {
+            numbers: [7, 9, 2],
+            desc: {
+                en: {
+                    name: "7, 9 present but, 2 absent",
+                    desc: "Peace of mind."
+                },
+                hi: {
+                    name: "७, ९ उपस्थित लेकिन, २ अनुपस्थित",
+                    desc: "मन की शांति।"
+                }
+            },
+            effect: 1
+        },
+        {
+            numbers: [7, 1, 6],
+            desc: {
+                en: {
+                    name: "7, 1 present but, 6 absent",
+                    desc: "Attracted towards science. Interested in mysteries and occult science, and gets deep into it."
+                },
+                hi: {
+                    name: "७, १ उपस्थित लेकिन, ६ अनुपस्थित",
+                    desc: "विज्ञान की ओर आकर्षित। रहस्यों और गूढ़ विज्ञान में रुचि रखते हैं, और उसमें गहराई से उतरते हैं।"
+                }
+            },
+            effect: 1
+        },
+        {
+            numbers: [3, 1, 8],
+            desc: {
+                en: {
+                    name: "3, 1 present but, 8 absent",
+                    desc: "Prefers to go into details of anything. One might be cheated."
+                },
+                hi: {
+                    name: "३, १ उपस्थित लेकिन, ८ अनुपस्थित",
+                    desc: "किसी भी चीज़ के विवरण में जाना पसंद करता है। धोखा हो सकता है।"
+                }
+            },
+            effect: 0
+        }
+    ];
 
-    // Collect formed/missing plane items first, so we can render formed first
+    // Collect formed/missing planes and, angles first, so we can render formed first
     const formedItems = [];
     const missingItems = [];
+    const formedAngles = [];
 
     Object.entries(planes).forEach(([name, obj]) => {
         const isFormed = obj.numbers.every(present);
@@ -1890,6 +2018,19 @@ function generatePlanes(gridRepeat) {
             );
         }
     });
+
+    for (const {numbers, desc, effect} of angles) {
+        const isFormed = numbers.slice(0, 1).every(present) && !present(numbers[2]);
+        if (isFormed) {
+            const angleClass = (effect === 1 ? "angle-positive" : (effect === -1 ? "angle-negative" : "angle-neutral"));
+            formedAngles.push(
+                `<li>
+                    <span class="${angleClass}"> ${desc.en.name}</span>
+                    <span class="desc">${desc.en.desc}</span>
+                </li>`
+            );
+        }
+    }
 
     // Rajyog logic per your rule:
     // Golden Rajyog → 4-5-6 present
@@ -1921,8 +2062,9 @@ function generatePlanes(gridRepeat) {
     // Sections: formed first, then missing, then rajyog
     const formedHtml = `<div class="loshu-desc-title">Formed Planes</div><ul class="plane-list">${formedItems.join("") || "<li>None</li>"}</ul>`;
     const missingHtml = `<div class="loshu-desc-title">Missing Planes</div><ul class="plane-list">${missingItems.join("") || "<li>None</li>"}</ul>`;
+    const formedAngelsHtml = `<div class="loshu-desc-title">Formed Angles</div><ul class="plane-list">${formedAngles.join("") || "<li>None</li>"}</ul>`;
 
-    return `<div class="loshu-desc-block">${formedHtml}${missingHtml}${rajyogHtml}</div>`;
+    return `<div class="loshu-desc-block">${formedHtml}${missingHtml}${formedAngelsHtml}${rajyogHtml}</div>`;
 }
 
 function getComplementary(gridRepeat, n) {
@@ -1935,16 +2077,16 @@ function getComplementary(gridRepeat, n) {
         (n === 7 && gridRepeat[3]) ||
         (n === 8 && gridRepeat[4]) ||
         (n === 9 && gridRepeat[1])) {
-        return n;
+        return numbers[currentLang][n];
     } else {
         return "–";
     }
 }
 
-function generateLoshuGrid(dob, kuaNumber) {
+function generateLoShuGrid(dob, kuaNumber) {
     const dobDigits = dob.replace(/\D/g, "").split("").map(Number);
 
-    // Normal Loshu numbers
+    // Normal LoShu numbers
     const personalityNumber = getPersonalityNumber(dobDigits);
     const destinyNumber = getDestinyNumber(dobDigits);
 
@@ -1972,41 +2114,41 @@ function generateLoshuGrid(dob, kuaNumber) {
         const loshuCount = pool.filter(d => d === i).length;
         const vedicCount = vedicPool.filter(d => d === i).length;
 
-        gridRepeat[i] = loshuCount > 0 ? i.toString().repeat(loshuCount) : "";
-        vedicRepeat[i] = vedicCount > 0 ? i.toString().repeat(vedicCount) : "";
+        gridRepeat[i] = loshuCount > 0 ? numbers[currentLang][i].toString().repeat(loshuCount) : "";
+        vedicRepeat[i] = vedicCount > 0 ? numbers[currentLang][i].toString().repeat(vedicCount) : "";
     }
 
-    // ---------------- Loshu Grids ----------------
+    // ---------------- LoShu Grids ----------------
     const gridHtmlReference = `
     <div class="loshu-grid-block reference-grid">
-    <div class="loshu-grid-title">Reference Loshu Grid</div>
+    <div class="loshu-grid-title">Reference LoShu Grid</div>
     <div class="loshu-grid-table">
     ${[4, 9, 2, 3, 5, 7, 8, 1, 6].map(n => `
         <div class="loshu-cell num-${n}">
-        <div>${n}</div>
-        <div class="planet-name">${loshuPlanets[n]}</div>
+        <div>${numbers[currentLang][n]}</div>
+        <div class="planet-name">${loShuPlanets[n][currentLang]}</div>
         </div>`).join("")}
     </div>
 </div>`;
 
     const gridHtmlUser = `
     <div class="loshu-grid-block reference-grid">
-    <div class="loshu-grid-title">Your Loshu Grid</div>
+    <div class="loshu-grid-title">Your LoShu Grid</div>
     <div class="loshu-grid-table">
     ${[4, 9, 2, 3, 5, 7, 8, 1, 6].map(n => `
         <div class="loshu-cell num-${n}">
         <div>${gridRepeat[n] || "–"}</div>
-        <div class="planet-name">${loshuPlanets[n]}</div>
+        <div class="planet-name">${loShuPlanets[n][currentLang]}</div>
         </div>`).join("")}
     </div>
 </div>
 <div class="loshu-grid-block reference-grid">
-    <div class="loshu-grid-title">Complementary Loshu Grid</div>
+    <div class="loshu-grid-title">Complementary LoShu Grid</div>
     <div class="loshu-grid-table">
     ${[4, 9, 2, 3, 5, 7, 8, 1, 6].map(n => `
         <div class="loshu-cell num-${n}">
         <div>${gridRepeat[n] || getComplementary(gridRepeat, n)}</div>
-        <div class="planet-name">${loshuPlanets[n]}</div>
+        <div class="planet-name">${loShuPlanets[n][currentLang]}</div>
         </div>`).join("")}
     </div>
 </div>`;
@@ -2018,8 +2160,8 @@ function generateLoshuGrid(dob, kuaNumber) {
     <div class="loshu-grid-table">
     ${[3, 1, 9, 6, 7, 5, 2, 8, 4].map(n => `
         <div class="loshu-cell num-${n}">
-        <div>${n}</div>
-        <div class="planet-name">${vedicPlanets[n]}</div>
+        <div>${numbers[currentLang][n]}</div>
+        <div class="planet-name">${vedicPlanets[n][currentLang]}</div>
         </div>`).join("")}
     </div>
 </div>`;
@@ -2031,29 +2173,39 @@ function generateLoshuGrid(dob, kuaNumber) {
     ${[3, 1, 9, 6, 7, 5, 2, 8, 4].map(n => `
         <div class="loshu-cell num-${n}">
         <div>${vedicRepeat[n] || "–"}</div>
-        <div class="planet-name">${vedicPlanets[n]}</div>
+        <div class="planet-name">${vedicPlanets[n][currentLang]}</div>
         </div>`).join("")}
     </div>
 </div>`;
 
+    function getCount(num) {
+        if (currentLang === 'en') {
+            return `Present ${gridRepeat[num].length} time${gridRepeat[num].length > 1 ? "s" : ""}`;
+        } else if (currentLang === 'hi') {
+            return `${numbers['hi'][gridRepeat[num].length]} बार मौजुद`;
+        } else {
+            return '';
+        }
+    }
+
     // ---------------- Descriptions ----------------
     let descHtml = `
     <div class="loshu-desc-block">
-        <div class="loshu-desc-title">Loshu Number Descriptions</div>
+        <div class="loshu-desc-title">LoShu Number Descriptions</div>
         <ul class="loshu-desc-list">
         ${[...Array(9).keys()].map(i => {
         const num = i + 1;
         return gridRepeat[num] !== ""
-            ? `<li><span class="present">${num}:</span> ${loshuMap[num]} <br><span class="present">(Present ${gridRepeat[num].length} time${gridRepeat[num].length > 1 ? "s" : ""})</span></li>`
+            ? `<li><span class="present">${numbers[currentLang][num]}:</span> ${loshuMap[num][currentLang].basic} <br><span class="present">${getCount(num)}</span></li>`
             : "";
     }).join("")}
         </ul>
-        <div class="loshu-desc-title">Loshu Missing Numbers</div>
+        <div class="loshu-desc-title">LoShu Missing Numbers</div>
         <ul class="loshu-desc-list">
         ${[...Array(9).keys()].map(i => {
         const num = i + 1;
         return gridRepeat[num] === ""
-            ? `<li><span class="missing">${num}:</span> ${missingMap[num]}</li>`
+            ? `<li><span class="missing">${numbers[currentLang][num]}:</span> ${missingMap[num][currentLang]}</li>`
             : "";
     }).join("")}
         </ul>
@@ -2066,7 +2218,7 @@ function generateLoshuGrid(dob, kuaNumber) {
         ${[...Array(9).keys()].map(i => {
         const num = i + 1;
         return vedicRepeat[num] !== ""
-            ? `<li><span class="present">${num}:</span> ${vedicPlanets[num]} → ${vedicTraits[num]} <br><span class="present">(Present ${vedicRepeat[num].length} time${vedicRepeat[num].length > 1 ? "s" : ""})</span></li>`
+            ? `<li><span class="present">${numbers[currentLang][num]}:</span> ${vedicPlanets[num][currentLang]} → ${vedicTraits[num][currentLang]} <br><span class="present">(Present ${vedicRepeat[num].length} time${vedicRepeat[num].length > 1 ? "s" : ""})</span></li>`
             : "";
     }).join("")}
         </ul>
@@ -2075,7 +2227,7 @@ function generateLoshuGrid(dob, kuaNumber) {
         ${[...Array(9).keys()].map(i => {
         const num = i + 1;
         return vedicRepeat[num] === ""
-            ? `<li><span class="missing">${num}:</span> ${vedicPlanets[num]} → ${vedicTraits[num]}</li>`
+            ? `<li><span class="missing">${numbers[currentLang][num]}:</span> ${vedicPlanets[num][currentLang]} → ${vedicTraits[num][currentLang]}</li>`
             : "";
     }).join("")}
         </ul>
@@ -2084,6 +2236,7 @@ function generateLoshuGrid(dob, kuaNumber) {
 
     return `<div class="loshu-wrapper">${gridHtmlReference}${gridHtmlUser}${vedicGridRef}${vedicGridUser}</div>${descHtml}`;
 }
+
 function calculateLoShu() {
     const dob = document.getElementById("dob").value.trim();
     const gender = document.getElementById("gender").value;
@@ -2096,13 +2249,13 @@ function calculateLoShu() {
     const year = parseInt(dob.substring(4), 10);
     const kuaNumber = getKuaNumber(year, gender);
 
-    // ✅ Generate Loshu + Vedic grids
-    const gridHtml = generateLoshuGrid(dob, kuaNumber);
+    // ✅ Generate LoShu + Vedic grids
+    const gridHtml = generateLoShuGrid(dob, kuaNumber);
 
     // ✅ Render results
     document.getElementById("loshuResults").innerHTML = `
     <div class="prediction-box">
-        <div class="label">Your Lo Shu & Vedic Grid Analysis</div>
+        <div class="label">Your LoShu & Vedic Grid Analysis</div>
         ${gridHtml}
     </div>
 `;
