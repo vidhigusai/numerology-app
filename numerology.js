@@ -1742,20 +1742,34 @@ const day = parseInt(dobMobile.split("-")[2], 10);
 const personality = getSingleDigitNoMaster(day);
 // Personality vs Mobile match
 function checkPersonalityMobileMatch(personalityOutput, finalDigit) {
-    const mismatchMap = {
-        1: [4, 6, 8],
-        2: [4, 5, 6, 7, 8, 9],
-        3: [4, 5, 6],
-        4: [1, 2, 3, 7, 9],
-        5: [2, 3, 9],
-        6: [1, 3, 9],
-        7: [2, 9],
+    const incompatibleMap = {
+        1: [8],
+        2: [4, 8, 9],
+        3: [6],
+        4: [2, 4, 8, 9],
+        5: [],
+        6: [3],
+        7: [],
         8: [1, 2],
-        9: [2, 4, 5, 6, 7]
+        9: [2, 4]
     };
-    const mismatch = mismatchMap[personalityOutput] || [];
-    if (mismatch.includes(finalDigit)) {
+    const neutralMap = {
+        1: [4, 7],
+        2: [6, 7],
+        3: [4, 7, 8, 9],
+        4: [3],
+        5: [4, 7, 8, 9],
+        6: [2, 4, 8, 9],
+        7: [2, 7, 8, 9],
+        8: [9],
+        9: [6, 7, 8, 9]
+    };
+    const incompatible = incompatibleMap[personalityOutput] || [];
+    const neutral = neutralMap[personalityOutput] || [];
+    if (incompatible.includes(finalDigit)) {
         return `<span style="color:red;"><strong>❌ Not matched, Not good</strong></span>`;
+    } else if (neutral.includes(finalDigit)) {
+        return `<span style="color:#cccc6a;"><strong>&#128993; Matched, Neutral</strong></span>`;
     } else {
         return `<span style="color:green;"><strong>✅ Matched, Good</strong></span>`;
     }
