@@ -1,14 +1,22 @@
 async function loadPageContent(url, selector) {
     try {
         const response = await fetch(url);
-        if (!response.ok) throw new Error(`Failed to load ${url}`);
+        if (!response.ok) {
+            console.error(`Error: Failed to fetch ${url} - Status: ${response.status}`);
+            return `<p>[Could not load ${url} (Status ${response.status})]</p>`;
+        }
         const text = await response.text();
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = text;
         const content = tempDiv.querySelector(selector);
-        return content ? content.innerHTML : `<p>[Content not found in ${url}]</p>`;
+        
+        if (!content) {
+            console.error(`Error: Selector "${selector}" not found inside ${url}`);
+            return `<p>[Selector ${selector} missing in ${url}]</p>`;
+        }
+        return content.innerHTML;
     } catch (error) {
-        console.error(error);
+        console.error(`Fetch exception for ${url}:`, error);
         return `<p>[Error loading ${url}]</p>`;
     }
 }
