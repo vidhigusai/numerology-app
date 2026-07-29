@@ -20,7 +20,7 @@ async function prepareCombinedContent() {
     const pages = [
         { url: 'mobile.html', selector: '.results-container' },
         { url: 'personal.html', selector: '.results-container' },
-        { url: 'loshgrid.html', selector: '.results-container' }
+        { url: 'loshugrid.html', selector: '.results-container' }
     ];
 
     for (const page of pages) {
