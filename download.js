@@ -1,15 +1,23 @@
 async function loadPageContent(url, selector) {
     try {
         const response = await fetch(url);
-        if (!response.ok) throw new Error(`Failed to load ${url}`);
+        if (!response.ok) {
+            console.error(`Failed to fetch ${url}: Status ${response.status}`);
+            return `<p style="color: red;">[Could not load ${url} - Status ${response.status}]</p>`;
+        }
         const text = await response.text();
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = text;
         const content = tempDiv.querySelector(selector);
-        return content ? content.innerHTML : `<p>[Content not found in ${url}]</p>`;
+        
+        if (!content) {
+            console.error(`Selector "${selector}" not found in ${url}`);
+            return `<p style="color: red;">[Selector ${selector} missing in ${url}]</p>`;
+        }
+        return content.innerHTML;
     } catch (error) {
-        console.error(error);
-        return `<p>[Error loading ${url}]</p>`;
+        console.error(`Error loading ${url}:`, error);
+        return `<p style="color: red;">[Error loading ${url}]</p>`;
     }
 }
 
@@ -18,9 +26,9 @@ async function prepareCombinedContent() {
     container.id = 'combinedReportContent';
 
     const pages = [
-        { url: 'mobile.html', selector: '.results-container' },
-        { url: 'personal.html', selector: '.results-container' },
-        { url: 'loshugrid.html', selector: '.results-container' }
+        { url: './mobile.html', selector: '.results-container' },
+        { url: './personal.html', selector: '.results-container' },
+        { url: './loshugrid.html', selector: '.results-container' }
     ];
 
     for (const page of pages) {
@@ -28,12 +36,6 @@ async function prepareCombinedContent() {
         const sectionDiv = document.createElement('div');
         sectionDiv.innerHTML = contentHtml;
         
-        const title = document.createElement('h2');
-        title.style.color = '#b8860b';
-        title.style.marginTop = '20px';
-        title.textContent = `Report Section`;
-        
-        container.appendChild(title);
         container.appendChild(sectionDiv);
         
         const pageBreak = document.createElement('div');
@@ -45,34 +47,45 @@ async function prepareCombinedContent() {
 }
 
 async function downloadReport() {
-    const userName = (document.getElementById('firstName')?.value.trim() + " " + document.getElementById('lastName')?.value.trim()).trim() || 'User';
+    // 1. Safely grab the user name
+    const firstName = document.getElementById('firstName')?.value.trim() || '';
+    const lastName = document.getElementById('lastName')?.value.trim() || '';
+    const userName = `${firstName} ${lastName}`.trim() || 'User';
 
-    // Create main wrapper container that will be temporarily rendered off-screen
+    // 2. Create the wrapper container
     const wrapper = document.createElement('div');
     wrapper.style.position = 'absolute';
     wrapper.style.left = '-9999px';
     wrapper.style.top = '0';
-    wrapper.style.width = '800px'; // Set a fixed standard width for clean PDF layout
+    wrapper.style.width = '800px';
     wrapper.style.backgroundColor = '#ffffff';
-    wrapper.style.padding = '20px';
+    wrapper.style.padding = '30px';
     wrapper.style.fontFamily = 'Arial, sans-serif';
 
-    // Create title page section
+    // 3. Create title page section
     const titlePage = document.createElement('div');
     titlePage.style.textAlign = 'center';
-    titlePage.style.padding = '100px 20px';
+    titlePage.style.padding = '150px 20px';
     titlePage.style.fontSize = '28px';
     titlePage.style.fontWeight = 'bold';
     titlePage.style.color = '#b8860b';
     titlePage.textContent = `${userName} Numerology Report`;
-    
     wrapper.appendChild(titlePage);
 
-    // Fetch and append the rest of the content pages
-    const combinedContent = await prepareCombinedContent();
-    wrapper.appendChild(combinedContent);
+    // 4. Try to append combined content safely
+    try {
+        const combinedContent = await prepareCombinedContent();
+        wrapper.appendChild(combinedContent);
+    } catch (err) {
+        console.error("Error building combined content:", err);
+        const errorMsg = document.createElement('p');
+        errorMsg.style.color = 'red';
+        errorMsg.style.textAlign = 'center';
+        errorMsg.textContent = 'Error loading additional report sections.';
+        wrapper.appendChild(errorMsg);
+    }
 
-    // Append to body temporarily so html2canvas can calculate element sizes/rendering
+    // 5. Append wrapper to DOM so html2canvas can render it
     document.body.appendChild(wrapper);
 
     const opt = {
@@ -87,8 +100,8 @@ async function downloadReport() {
         await html2pdf().set(opt).from(wrapper).save();
     } catch (err) {
         console.error("PDF generation failed:", err);
+        alert("Failed to generate PDF. Check console for details.");
     } finally {
-        // Clean up wrapper from DOM after saving
         wrapper.remove();
     }
 }
