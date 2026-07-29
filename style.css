@@ -1089,3 +1089,41 @@ footer {
         line-height: 1.6;
     }
 }
+
+@media print {
+    /* Hide everything on the page by default */
+    body * {
+        visibility: hidden;
+    }
+
+    /* Only show the title and results container during print */
+    .page-title, 
+    .page-title *, 
+    #resultsGrid, 
+    #resultsGrid * {
+        visibility: visible;
+    }
+
+    /* Position the results at the top left of the printed page */
+    #resultsGrid {
+        position: absolute;
+        left: 0;
+        top: 50px;
+        width: 100%;
+        display: block !important;
+    }
+
+    .page-title {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        text-align: center;
+        font-size: 22px;
+    }
+
+    /* Hide form inputs, navigation bars, and action buttons */
+    .form-container, .topbar, #actionButtons, button {
+        display: none !important;
+    }
+}
