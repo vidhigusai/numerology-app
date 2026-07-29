@@ -1,16 +1,20 @@
 async function loadPageContent(url, selector) {
-    const response = await fetch(url);
-    const text = await response.text();
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = text;
-    // Extract relevant content part by selector
-    const content = tempDiv.querySelector(selector);
-    return content ? content.innerHTML : '';
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`Failed to load ${url}`);
+        const text = await response.text();
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = text;
+        const content = tempDiv.querySelector(selector);
+        return content ? content.innerHTML : `<p>[Content not found in ${url}]</p>`;
+    } catch (error) {
+        console.error(error);
+        return `<p>[Error loading ${url}]</p>`;
+    }
 }
 
 async function prepareCombinedContent() {
     const container = document.createElement('div');
-    container.style.display = 'none'; // Hide it from visible UI
     container.id = 'combinedReportContent';
 
     const pages = [
@@ -23,59 +27,79 @@ async function prepareCombinedContent() {
         const contentHtml = await loadPageContent(page.url, page.selector);
         const sectionDiv = document.createElement('div');
         sectionDiv.innerHTML = contentHtml;
-        // Add optional title and page break for clarity in PDF
+        
         const title = document.createElement('h2');
-        title.textContent = `Report from ${page.url}`;
+        title.style.color = '#b8860b';
+        title.style.marginTop = '20px';
+        title.textContent = `Report Section`;
+        
         container.appendChild(title);
         container.appendChild(sectionDiv);
+        
         const pageBreak = document.createElement('div');
         pageBreak.className = 'page-break';
         container.appendChild(pageBreak);
     }
 
-    document.body.appendChild(container);
     return container;
 }
 
 async function downloadReport() {
-    // Prepare combined content if not already
-    let combinedContent = document.getElementById('combinedReportContent');
-    if (!combinedContent) combinedContent = await prepareCombinedContent();
-
     const userName = (document.getElementById('firstName')?.value.trim() + " " + document.getElementById('lastName')?.value.trim()).trim() || 'User';
 
-    // Create title page for PDF
+    // Create main wrapper container that will be temporarily rendered off-screen
+    const wrapper = document.createElement('div');
+    wrapper.style.position = 'absolute';
+    wrapper.style.left = '-9999px';
+    wrapper.style.top = '0';
+    wrapper.style.width = '800px'; // Set a fixed standard width for clean PDF layout
+    wrapper.style.backgroundColor = '#ffffff';
+    wrapper.style.padding = '20px';
+    wrapper.style.fontFamily = 'Arial, sans-serif';
+
+    // Create title page section
     const titlePage = document.createElement('div');
     titlePage.style.textAlign = 'center';
-    titlePage.style.padding = '150px 20px';
+    titlePage.style.padding = '100px 20px';
     titlePage.style.fontSize = '28px';
     titlePage.style.fontWeight = 'bold';
     titlePage.style.color = '#b8860b';
     titlePage.textContent = `${userName} Numerology Report`;
-
-    // Wrap titlePage + combined content in a container
-    const wrapper = document.createElement('div');
+    
     wrapper.appendChild(titlePage);
-    wrapper.appendChild(combinedContent.cloneNode(true));
+
+    // Fetch and append the rest of the content pages
+    const combinedContent = await prepareCombinedContent();
+    wrapper.appendChild(combinedContent);
+
+    // Append to body temporarily so html2canvas can calculate element sizes/rendering
+    document.body.appendChild(wrapper);
 
     const opt = {
         margin: 10,
         filename: `${userName.replace(/\s+/g, '_')}_Numerology_Report.pdf`,
-        image: { type: 'jpeg', quality: 1 },
-        html2canvas: { scale: 4, useCORS: true, scrollY: 0 },
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, logging: true },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
 
-    html2pdf().set(opt).from(wrapper).save();
+    try {
+        await html2pdf().set(opt).from(wrapper).save();
+    } catch (err) {
+        console.error("PDF generation failed:", err);
+    } finally {
+        // Clean up wrapper from DOM after saving
+        wrapper.remove();
+    }
 }
 
-// CSS to ensure page breaks nicely in PDF
+// CSS for page breaks
 const style = document.createElement('style');
 style.textContent = `
 @media print {
     .page-break {
         page-break-before: always;
-        }
+    }
 }
 `;
 document.head.appendChild(style);
