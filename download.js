@@ -3,12 +3,19 @@ async function downloadReport() {
     const lastName = document.getElementById('lastName')?.value.trim() || '';
     const userName = `${firstName} ${lastName}`.trim() || 'User';
 
-    // 1. Create a dedicated container for the PDF
+    const resultsContainer = document.getElementById('resultsGrid');
+    
+    if (!resultsContainer || resultsContainer.innerHTML.trim() === '') {
+        alert('Please calculate your results before downloading the report.');
+        return;
+    }
+
+    // 1. Create the PDF wrapper container
     const wrapper = document.createElement('div');
     wrapper.style.position = 'fixed';
     wrapper.style.left = '0';
     wrapper.style.top = '0';
-    wrapper.style.width = '210mm'; // Standard A4 width
+    wrapper.style.width = '210mm';
     wrapper.style.backgroundColor = '#ffffff';
     wrapper.style.padding = '20px';
     wrapper.style.boxSizing = 'border-box';
@@ -18,37 +25,30 @@ async function downloadReport() {
     // 2. Create Title Page
     const titlePage = document.createElement('div');
     titlePage.style.textAlign = 'center';
-    titlePage.style.padding = '80px 20px';
+    titlePage.style.padding = '60px 20px 40px 20px';
     titlePage.style.fontSize = '26px';
     titlePage.style.fontWeight = 'bold';
     titlePage.style.color = '#b8860b';
     titlePage.textContent = `${userName} Numerology Report`;
     wrapper.appendChild(titlePage);
 
-    // 3. Grab the generated results from the page
-    const resultsContainer = document.getElementById('resultsGrid');
-    
-    if (resultsContainer && resultsContainer.innerHTML.trim() !== '') {
-        const contentClone = resultsContainer.cloneNode(true);
-        // Force the clone to be visible so html2canvas can read it
-        contentClone.style.display = 'block';
-        contentClone.style.visibility = 'visible';
-        contentClone.style.opacity = '1';
-        contentClone.style.color = '#000000'; // Ensure text is visible
-        wrapper.appendChild(contentClone);
-    } else {
-        const warning = document.createElement('p');
-        warning.style.textAlign = 'center';
-        warning.style.color = 'red';
-        warning.style.fontSize = '16px';
-        warning.textContent = 'Please calculate your results before downloading the report.';
-        wrapper.appendChild(warning);
-    }
+    // 3. Save original parent and next sibling of resultsContainer so we can put it back later
+    const originalParent = resultsContainer.parentNode;
+    const originalNextSibling = resultsContainer.nextSibling;
 
-    // 4. Temporarily attach wrapper to the live DOM so the browser renders it
+    // Force the results container to be visible and styled for the PDF export
+    resultsContainer.style.display = 'block';
+    resultsContainer.style.visibility = 'visible';
+    resultsContainer.style.opacity = '1';
+    resultsContainer.style.width = '100%';
+    
+    // Move resultsContainer directly into the PDF wrapper
+    wrapper.appendChild(resultsContainer);
+
+    // 4. Attach wrapper to body so html2canvas can render it
     document.body.appendChild(wrapper);
 
-    // Give the browser a split second to paint the elements
+    // Brief delay to let browser paint
     await new Promise(resolve => setTimeout(resolve, 200));
 
     const opt = {
@@ -70,7 +70,14 @@ async function downloadReport() {
         console.error("PDF generation failed:", err);
         alert("Failed to generate PDF. Please try again.");
     } finally {
-        // 5. Clean up by removing the temporary wrapper from the page
+        // 5. Put resultsContainer safely back into its original spot on your webpage
+        if (originalNextSibling) {
+            originalParent.insertBefore(resultsContainer, originalNextSibling);
+        } else {
+            originalParent.appendChild(resultsContainer);
+        }
+        
+        // Remove the temporary PDF wrapper
         wrapper.remove();
     }
 }
