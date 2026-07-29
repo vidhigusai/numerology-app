@@ -1091,26 +1091,31 @@ footer {
 }
 
 @media print {
-    /* Hide everything on the page by default */
+    /* Hide everything by default */
     body * {
         visibility: hidden;
     }
 
-    /* Only show the title and results container during print */
+    /* Target title and both possible result container IDs */
     .page-title, 
     .page-title *, 
     #resultsGrid, 
-    #resultsGrid * {
+    #resultsGrid *, 
+    #loshuResults, 
+    #loshuResults * {
         visibility: visible;
     }
 
-    /* Position the results at the top left of the printed page */
-    #resultsGrid {
+    /* Force the Lo Shu grid container to display properly */
+    #resultsGrid, 
+    #loshuResults {
         position: absolute;
         left: 0;
-        top: 50px;
+        top: 60px;
         width: 100%;
         display: block !important;
+        /* Ensures CSS grids don't collapse in print view */
+        page-break-inside: avoid; 
     }
 
     .page-title {
@@ -1122,7 +1127,7 @@ footer {
         font-size: 22px;
     }
 
-    /* Hide form inputs, navigation bars, and action buttons */
+    /* Hide form inputs, topbar, and action buttons */
     .form-container, .topbar, #actionButtons, button {
         display: none !important;
     }
