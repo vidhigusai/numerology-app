@@ -3,7 +3,7 @@ function downloadReport() {
     const lastName = document.getElementById('lastName')?.value.trim() || '';
     const userName = `${firstName} ${lastName}`.trim() || 'User';
 
-    const resultsContainer = document.getElementById('resultsGrid');
+    const resultsContainer = document.getElementById('resultsGrid') || document.getElementById('loshuResults');
     
     if (!resultsContainer || resultsContainer.innerHTML.trim() === '') {
         alert('Please calculate your results before downloading the report.');
